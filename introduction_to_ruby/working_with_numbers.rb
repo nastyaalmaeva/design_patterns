@@ -16,7 +16,7 @@ def prime_divisor_sum(number)
 		return 0
 	end
 	sum_of_primes = 0
-	for divisor in 2...number do
+	for divisor in 2..number do
 		if is_prime?(divisor) && number % divisor == 0 then
 			sum_of_primes += divisor
 		end
