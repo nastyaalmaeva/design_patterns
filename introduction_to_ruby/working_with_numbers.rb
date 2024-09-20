@@ -24,6 +24,18 @@ def prime_divisor_sum(number)
 	return sum_of_primes
 end
 
+def count_odd_digits_above_three(number)
+	odd_digits_count = 0
+	while number > 0 do
+		digit = number % 10
+		if digit > 3 && digit.odd? then
+			odd_digits_count += 1
+		end
+		number /= 10
+	end
+	return odd_digits_count
+end
+
 begin
 	puts "\n"
 	print "Enter a number: "
@@ -35,6 +47,7 @@ begin
 	elsif integer_part.to_s == input_string && integer_part > 0 then
 		puts "\n"
 		puts "The sum of the prime divisors of the number #{integer_part} is #{prime_divisor_sum(integer_part)}."
+		puts "The number of odd digits in #{integer_part} that are greater than 3 is #{count_odd_digits_above_three(integer_part)}."
 	else
 		puts "\nThe input is not a valid positive integer."
 	end
