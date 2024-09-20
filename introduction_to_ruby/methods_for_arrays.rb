@@ -78,3 +78,52 @@ def find_first_positive_using_while_in(array)
     end
     return -1, -1
 end
+
+if ARGV.length == 2 then
+    action_number = ARGV[0].to_i
+    file_path = ARGV[1]
+    puts "\n"
+    array = load_array_from_file(file_path)
+    if array.empty?
+        puts "The array is empty, what do you want from me?"
+        exit
+    end
+    case action_number
+    when 1
+        min_value, min_pos = find_min_using_for_in(array)
+        puts "The minimum element found using a for loop is #{min_value}. Index: #{min_pos}."
+    when 2
+        min_value, min_pos = find_min_using_while_in(array)
+        puts "The minimum element found using a while loop is #{min_value}. Index: #{min_pos}."
+    when 3
+        puts "Enter the element you are looking for: "
+        target_value = $stdin.gets.chomp.to_i
+        index = find_element_with_for_loop(array, target_value)
+        puts index == -1 ? "\nThe element is not in the array." : "The index of the sought element found using a for loop is #{index}."
+    when 4
+        puts "Enter the element you are looking for: "
+        target_value = $stdin.gets.chomp.to_i
+        index = find_element_with_while_loop(array, target_value)
+        puts index == -1 ? "\nThe element is not in the array." : "The index of the sought element found using a while loop is #{index}."
+    when 5
+        value, index = find_first_positive_using_for_in(array)
+        puts index == -1 ? "\nThere are no positive elements in the array." : "The first positive element found using a for loop is #{value}. Index: #{index}."
+    when 6
+        value, index = find_first_positive_using_while_in(array)
+        puts index == -1 ? "\nThere are no positive elements in the array." : "The first positive element found using a while loop is #{value}. Index: #{index}."
+    else
+        puts "Invalid action number..."
+    end
+else
+	puts "\n"
+    puts "I don't understand what you want!"
+	puts "Pass the action number as the first argument, and the path to the array as the second argument."
+    puts "\n"
+	puts "Actions:"
+    puts "1) Find the minimum element of the array using a for loop"
+    puts "2) Find the minimum element of the array using a while loop"
+    puts "3) Find a specific element of the array using a for loop"
+    puts "4) Find a specific element of the array using a while loop"
+    puts "5) Find the first positive element of the array using a for loop"
+    puts "6) Find the first positive element of the array using a while loop"
+end
