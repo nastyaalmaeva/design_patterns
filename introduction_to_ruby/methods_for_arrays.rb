@@ -1,12 +1,14 @@
 def load_array_from_file(file_path)
     begin
-        file_content = File.read(file_path).chomp
-        cleaned_content = file_content.gsub(";", "").gsub(",", "")
-        arr = cleaned_content.split
-        for i in 0...arr.length do
-            arr[i] = Integer(arr[i])
-        end
-        return arr
+		File.open(file_path, "r") do |file|
+			file_content = file.read.chomp
+			cleaned_content = file_content.gsub(";", "").gsub(",", "")
+			arr = cleaned_content.split
+			for i in 0...arr.length do
+				arr[i] = Integer(arr[i])
+			end
+			return arr
+		end
     rescue => exception
         puts "Error: #{exception.message}"
         exit
