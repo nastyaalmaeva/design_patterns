@@ -109,6 +109,18 @@ class Student
 		end
 	end
 	
+	def git_present?
+		!@git.nil?
+	end
+	
+	def contact_present?
+		!@phone_number.nil? || !@telegram.nil? || !@email_address.nil?
+	end
+	
+	def validate?
+		self.git_present? && self.contact_present?
+	end
+	
 	def print_info
 		puts "╔══════════════════════════════════════════╗"
 		
@@ -120,6 +132,7 @@ class Student
 		puts " Telegram: #{@telegram ? @telegram : "No data"}"
 		puts " Email Address: #{@email_address ? @email_address : "No data"}"
 		puts " Git: #{@git ? @git : "No data"}"
+		puts " Validation Status: #{self.validate? ? "Passed" : "Failed"}"
 		
 		puts "╚══════════════════════════════════════════╝"
 	end
