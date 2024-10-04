@@ -1,4 +1,4 @@
-require './student.rb'
+require_relative 'student.rb'
 
 begin
 	first_student = Student.new(
@@ -43,7 +43,7 @@ begin
 	third_student.print_info
 	fourth_student.print_info
 	fifth_student.print_info
-	
+
 rescue ArgumentError => e
-  puts "An error occurred: #{e.message}"
+  print "An error occurred: #{e.message}"
 end

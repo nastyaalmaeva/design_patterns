@@ -1,24 +1,14 @@
 class Student
 	attr_accessor :student_id
 	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :git
-
+	
 	def initialize(surname:, name:, patronymic:, **options)
 		self.student_id = options[:student_id]
 		self.surname = surname
 		self.name = name
 		self.patronymic = patronymic
-		self.phone_number = options[:phone_number]
-		self.telegram = options[:telegram]
-		self.email_address = options[:email_address]
 		self.git = options[:git]
-	end
-	
-	def self.valid_format_name?(name)
-		if name.match(/^[A-Za-z]+(?:-[A-Za-z]+)?$/) || name.match(/^[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)?$/)
-			return true
-		else
-			return false
-		end
+		self.set_contacts(options)
 	end
 	
 	def surname=(value)
@@ -42,62 +32,6 @@ class Student
 			@patronymic = value
 		else
 			raise ArgumentError, "Wrong patronymic format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
-		end
-	end
-	
-	def self.valid_format_phone_number?(phone_number)
-		if phone_number.nil? || phone_number.match(/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/)
-			return true
-		else
-			return false
-		end
-	end
-	
-	def phone_number=(value)
-		if self.class.valid_format_phone_number?(value)
-			@phone_number = value
-		else
-			raise ArgumentError, "Wrong phone number format. Expected format: +7(XXX)-XXX-XX-XX, where X is a digit."
-		end
-	end
-	
-	def self.valid_format_telegram?(telegram)
-		if telegram.nil? || telegram.match(/@[a-zA-Z0-9_]{5,}$/)
-			return true
-		else
-			return false
-		end
-	end
-	
-	def telegram=(value)
-		if self.class.valid_format_telegram?(value)
-			@telegram = value
-		else
-			raise ArgumentError, "Wrong telegram format. Expected format: @ followed by 5 or more English alphanumeric characters or underscores."
-		end
-	end
-	
-	def self.valid_format_email_address?(email_address)
-		if email_address.nil? || email_address.match(/^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-			return true
-		else
-			return false
-		end
-	end
-	
-	def email_address=(value)
-		if self.class.valid_format_email_address?(value)
-			@email_address = value
-		else
-			raise ArgumentError, "Wrong email address format. Expected format: name@domain.com."
-		end
-	end
-	
-	def self.valid_format_git?(git)
-		if git.nil? || git.match(/^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/)
-			return true
-		else
-			return false
 		end
 	end
 	
@@ -135,5 +69,67 @@ class Student
 		puts " Validation Status: #{self.validate? ? "Passed" : "Failed"}"
 		
 		puts "╚══════════════════════════════════════════╝"
+	end
+	
+	private
+	
+	def self.valid_format_name?(name)
+		if name.match(/^[A-Za-z]+(?:-[A-Za-z]+)?$/) || name.match(/^[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)?$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def self.valid_format_phone_number?(phone_number)
+		if phone_number.nil? || phone_number.match(/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def self.valid_format_telegram?(telegram)
+		if telegram.nil? || telegram.match(/@[a-zA-Z0-9_]{5,}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def self.valid_format_email_address?(email_address)
+		if email_address.nil? || email_address.match(/^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def self.valid_format_git?(git)
+		if git.nil? || git.match(/^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def set_contacts(options)
+		if self.class.valid_format_phone_number?(options[:phone_number])
+			@phone_number = options[:phone_number]
+		else
+			raise ArgumentError, "Wrong phone number format. Expected format: +7(XXX)-XXX-XX-XX, where X is a digit."
+		end
+		
+		if self.class.valid_format_telegram?(options[:telegram])
+			@telegram = options[:telegram]
+		else
+			raise ArgumentError, "Wrong telegram format. Expected format: @ followed by 5 or more English alphanumeric characters or underscores."
+		end
+		
+		if self.class.valid_format_email_address?(options[:email_address])
+			@email_address = options[:email_address]
+		else
+			raise ArgumentError, "Wrong email address format. Expected format: name@domain.com."
+		end
 	end
 end
