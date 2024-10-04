@@ -1,6 +1,6 @@
 class Student
-	attr_accessor :student_id, :surname, :name, :patronymic, :telegram, :email_address, :git
-	attr_reader :phone_number
+	attr_accessor :student_id
+	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :git
 
 	def initialize(surname:, name:, patronymic:, **options)
 		self.student_id = options[:student_id]
@@ -11,6 +11,38 @@ class Student
 		self.telegram = options[:telegram]
 		self.email_address = options[:email_address]
 		self.git = options[:git]
+	end
+	
+	def self.valid_format_name?(name)
+		if name.match(/^[A-Za-z]+(?:-[A-Za-z]+)?$/) || name.match(/^[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)?$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def surname=(value)
+		if self.class.valid_format_name?(value)
+			@surname = value
+		else
+			raise ArgumentError, "Wrong surname format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
+		end
+	end
+	
+	def name=(value)
+		if self.class.valid_format_name?(value)
+			@name = value
+		else
+			raise ArgumentError, "Wrong name format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
+		end
+	end
+	
+	def patronymic=(value)
+		if self.class.valid_format_name?(value)
+			@patronymic = value
+		else
+			raise ArgumentError, "Wrong patronymic format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
+		end
 	end
 	
 	def self.valid_format_phone_number?(phone_number)
@@ -26,6 +58,54 @@ class Student
 			@phone_number = value
 		else
 			raise ArgumentError, "Wrong phone number format. Expected format: +7(XXX)-XXX-XX-XX, where X is a digit."
+		end
+	end
+	
+	def self.valid_format_telegram?(telegram)
+		if telegram.nil? || telegram.match(/@[a-zA-Z0-9_]{5,}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def telegram=(value)
+		if self.class.valid_format_telegram?(value)
+			@telegram = value
+		else
+			raise ArgumentError, "Wrong telegram format. Expected format: @ followed by 5 or more English alphanumeric characters or underscores."
+		end
+	end
+	
+	def self.valid_format_email_address?(email_address)
+		if email_address.nil? || email_address.match(/^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def email_address=(value)
+		if self.class.valid_format_email_address?(value)
+			@email_address = value
+		else
+			raise ArgumentError, "Wrong email address format. Expected format: name@domain.com."
+		end
+	end
+	
+	def self.valid_format_git?(git)
+		if git.nil? || git.match(/^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/)
+			return true
+		else
+			return false
+		end
+	end
+	
+	def git=(value)
+		if self.class.valid_format_git?(value)
+			@git = value
+		else
+			raise ArgumentError, "Wrong git format. Expected format: http://github.com/username or https://github.com/username."
 		end
 	end
 	
