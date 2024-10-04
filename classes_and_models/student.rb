@@ -1,7 +1,7 @@
 class Student
 	attr_accessor :student_id, :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :git
 
-	def initialize(surname, name, patronymic, student_id=nil, phone_number=nil, telegram=nil, email_address=nil, git=nil)
+	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil)
 		self.student_id = student_id
 		self.surname = surname
 		self.name = name

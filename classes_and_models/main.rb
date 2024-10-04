@@ -1,8 +1,30 @@
 require './student.rb'
 
-first_student = Student.new("Almaeva", "Anastasia", "Ilyinichna", 1, "+7(905)-123-45-67", "@nastya", "nastya@gmail.com", "https://github.com/nastyaalmaeva")
-second_student = Student.new("Kuznetsov", "Dmitry", "Nikolaevich", 2, nil, "@dmitry_k", "dmitry.kuznetsov@gmail.com", "https://github.com/dmitry_kuznetsov")
-third_student = Student.new("Fedorov", "Maxim", "Olegovich", 3, "+7(925)-888-99-11", "@max_fed", nil, "https://github.com/max_fedorov")
+first_student = Student.new(
+				surname: "Almaeva",
+				name: "Anastasia",
+				patronymic: "Ilyinichna",
+				student_id: 1,
+				phone_number: "+7(905)-123-45-67",
+				telegram: "@nastya",
+				email_address: "nastya@gmail.com",
+				git: "https://github.com/nastyaalmaeva")
+second_student = Student.new(
+				surname: "Kuznetsov",
+				name: "Dmitry",
+				patronymic: "Nikolaevich",
+				student_id: 2,
+				telegram: "@dmitry_k",
+				email_address: "dmitry.kuznetsov@gmail.com",
+				git: "https://github.com/dmitry_kuznetsov")
+third_student = Student.new(
+				surname: "Fedorov",
+				name: "Maxim",
+				patronymic: "Olegovich",
+				student_id: 3,
+				phone_number: "+7(925)-888-99-11",
+				telegram: "@max_fed",
+				git: "https://github.com/max_fedorov")
 
 first_student.print_info
 second_student.print_info
