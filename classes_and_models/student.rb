@@ -1,15 +1,15 @@
 class Student
 	attr_accessor :student_id, :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :git
 
-	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil)
-		self.student_id = student_id
+	def initialize(surname:, name:, patronymic:, **options)
+		self.student_id = options[:student_id]
 		self.surname = surname
 		self.name = name
 		self.patronymic = patronymic
-		self.phone_number = phone_number
-		self.telegram = telegram
-		self.email_address = email_address
-		self.git = git
+		self.phone_number = options[:phone_number]
+		self.telegram = options[:telegram]
+		self.email_address = options[:email_address]
+		self.git = options[:git]
 	end
 	
 	def print_info
