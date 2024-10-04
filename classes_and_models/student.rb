@@ -73,4 +73,19 @@ class Student
 	def git=(value)
 		@git = value
 	end
+	
+	def print_info
+		puts "╔══════════════════════════════════════════╗"
+		
+		puts " Student ID: #{@student_id ? @student_id : "No data"}"
+		puts " Surname: #{@surname ? @surname : "No data"}"
+		puts " Name: #{@name ? @name : "No data"}"
+		puts " Patronymic: #{@patronymic ? @patronymic : "No data"}"
+		puts " Phone Number: #{@phone_number ? @phone_number : "No data"}"
+		puts " Telegram: #{@telegram ? @telegram : "No data"}"
+		puts " Email Address: #{@email_address ? @email_address : "No data"}"
+		puts " Git: #{@git ? @git : "No data"}"
+		
+		puts "╚══════════════════════════════════════════╝"
+	end
 end
