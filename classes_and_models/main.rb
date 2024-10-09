@@ -38,11 +38,22 @@ begin
 					patronymic: "Dmitrievich",
 					student_id: 5)
 	
-	first_student.print_info
-	second_student.print_info
-	third_student.print_info
-	fourth_student.print_info
-	fifth_student.print_info
+	puts first_student
+	puts second_student
+	puts third_student
+	puts fourth_student
+	puts fifth_student
+	
+	first_student.set_contacts(phone_number: "+7(888)-777-66-55")
+	second_student.set_contacts(email_address: "dmitry_dev@gmail.com")
+	third_student.set_contacts(telegram: "@maxim_develop")
+	
+	puts "\n\nAfter changing contacts (set_contacts):"
+	puts first_student
+	puts second_student
+	puts third_student
+	puts fourth_student
+	puts fifth_student
 
 rescue ArgumentError => e
   print "An error occurred: #{e.message}"
