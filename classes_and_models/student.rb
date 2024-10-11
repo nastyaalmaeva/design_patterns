@@ -75,8 +75,36 @@ class Student
 		self.git_present? && self.contact_present?
 	end
 	
+	def get_surname_with_initials
+		"#{surname} #{name[0].upcase}. #{patronymic[0].upcase}."
+	end
+
+	def get_git
+		git ? git : "no data"
+	end
+
+	def get_contact_info
+		if phone_number
+			return "#{phone_number} (Type: phone number)"
+		elsif telegram
+			return "#{telegram} (Type: telegram)"
+		elsif email_address
+			return "#{email_address} (Type: email address)"
+		else
+			return "no data"
+		end
+	end
+
+	def get_info
+		"╔═══════════════════════════════════════════════════╗\n" \
+		" Surname and initials: #{get_surname_with_initials}\n" \
+		" Git: #{get_git}\n" \
+		" Contact: #{get_contact_info}\n" \
+		"╚═══════════════════════════════════════════════════╝"
+	end
+	
 	def to_s
-		"╔══════════════════════════════════════════╗\n" \
+		"╔═══════════════════════════════════════════════════╗\n" \
 		" Student ID: #{@student_id ? @student_id : "No data"}\n" \
 		" Surname: #{@surname ? @surname : "No data"}\n" \
 		" Name: #{@name ? @name : "No data"}\n" \
@@ -86,7 +114,7 @@ class Student
 		" Email Address: #{@email_address ? @email_address : "No data"}\n" \
 		" Git: #{@git ? @git : "No data"}\n" \
 		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
-		"╚══════════════════════════════════════════╝"
+		"╚═══════════════════════════════════════════════════╝"
 	end
 	
 	def self.valid_format_name?(name)

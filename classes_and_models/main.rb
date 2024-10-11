@@ -48,13 +48,13 @@ begin
 	second_student.set_contacts(email_address: "dmitry_dev@gmail.com")
 	third_student.set_contacts(telegram: "@maxim_develop")
 	
-	puts "\n\nAfter changing contacts (set_contacts):"
-	puts first_student
-	puts second_student
-	puts third_student
-	puts fourth_student
-	puts fifth_student
-
+	puts "\n\nAfter changing contacts (get_info):"
+	puts first_student.get_info
+	puts second_student.get_info
+	puts third_student.get_info
+	puts fourth_student.get_info
+	puts fifth_student.get_info
+	
 rescue ArgumentError => e
   print "An error occurred: #{e.message}"
 end
