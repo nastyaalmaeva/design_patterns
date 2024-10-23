@@ -1,3 +1,4 @@
+require_relative 'person.rb'
 require_relative 'student.rb'
 require_relative 'student_short.rb'
 
@@ -50,6 +51,7 @@ begin
 	third_student.set_contacts(telegram: "@maxim_develop")
 	
 	puts "\n"
+	
 	puts "After changing contacts (using get_info):"
 	puts first_student.get_info
 	puts second_student.get_info
@@ -59,10 +61,10 @@ begin
 	
 	puts "\n"
 	
-	first_student_short = StudentShort.new(first_student)
-	second_student_short = StudentShort.new("Surname and initials: Ivanov I. I. | Git: https://github.com/ivanovich | Phone number: +7(912)-123-45-67", student_id: 2)
-	third_student_short = StudentShort.new("Surname and initials: Petrova P. P. | Git: https://github.com/petrova_p | Telegram: @p_petrova", student_id: 3)
-	fourth_student_short = StudentShort.new("Surname and initials: Sidorov S. S. | Git: No data | Contact: No data", student_id: 4)
+	first_student_short = StudentShort.new_from_student_object(first_student)
+	second_student_short = StudentShort.new_from_string(string: "Surname and initials: Ivanov I. I.  | Git: https://github.com/ivanovich | Phone number: +7(912)-123-45-67", student_id: 2)
+	third_student_short = StudentShort.new_from_string(string: "Surname and initials: Petrova P. P.  | Git: https://github.com/petrova_p | Telegram: @p_petrova", student_id: 3)
+	fourth_student_short = StudentShort.new_from_string(string: "Surname and initials: Sidorov S. S. | Git: No data                      | Contact: No data", student_id: 4)
 	
 	puts first_student_short
 	puts second_student_short

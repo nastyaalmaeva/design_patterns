@@ -32,6 +32,44 @@ class Student < Person
 		end
 	end
 	
+	def get_surname_with_initials
+		return "#{@surname} #{@name[0].upcase}. #{@patronymic[0].upcase}."
+	end
+
+	def get_contact
+		if @phone_number
+			return @phone_number
+		elsif @telegram
+			return @telegram
+		elsif @email_address
+			return @email_address
+		else
+			return nil
+		end
+	end
+
+	def get_info
+		"Surname and initials: #{get_surname_with_initials} | " \
+		"Git: #{git ? git : 'No data'} | " \
+		"#{get_contact_type(get_contact)}: #{get_contact ? get_contact : 'No data'}"
+	end
+	
+	def to_s
+		"╔═══════════════════════════════════════════════════╗\n" \
+		" Student ID: #{@student_id ? @student_id : "No data"}\n" \
+		" Surname: #{@surname ? @surname : "No data"}\n" \
+		" Name: #{@name ? @name : "No data"}\n" \
+		" Patronymic: #{@patronymic ? @patronymic : "No data"}\n" \
+		" Phone Number: #{@phone_number ? @phone_number : "No data"}\n" \
+		" Telegram: #{@telegram ? @telegram : "No data"}\n" \
+		" Email Address: #{@email_address ? @email_address : "No data"}\n" \
+		" Git: #{@git ? @git : "No data"}\n" \
+		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
+		"╚═══════════════════════════════════════════════════╝"
+	end
+	
+	private
+	
 	def surname=(surname)
 		if self.class.valid_format_name?(surname)
 			@surname = surname
@@ -54,41 +92,5 @@ class Student < Person
 		else
 			raise ArgumentError, "Wrong patronymic format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
 		end
-	end
-	
-	def get_surname_with_initials
-		"#{@surname} #{@name[0].upcase}. #{@patronymic[0].upcase}."
-	end
-
-	def get_contact
-		if @phone_number
-			return "Phone number", @phone_number.to_s
-		elsif @telegram
-			return "Telegram", @telegram.to_s
-		elsif @email_address
-			return "Email address", @email_address.to_s
-		else
-			return "Contact", nil
-		end
-	end
-
-	def get_info
-		"Surname and initials: #{get_surname_with_initials} | " \
-		"Git: #{git ? git : 'No data'} | " \
-		"#{get_contact[0]}: #{get_contact[1] ? get_contact[1] : 'No data'}"
-	end
-	
-	def to_s
-		"╔═══════════════════════════════════════════════════╗\n" \
-		" Student ID: #{@student_id ? @student_id : "No data"}\n" \
-		" Surname: #{@surname ? @surname : "No data"}\n" \
-		" Name: #{@name ? @name : "No data"}\n" \
-		" Patronymic: #{@patronymic ? @patronymic : "No data"}\n" \
-		" Phone Number: #{@phone_number ? @phone_number : "No data"}\n" \
-		" Telegram: #{@telegram ? @telegram : "No data"}\n" \
-		" Email Address: #{@email_address ? @email_address : "No data"}\n" \
-		" Git: #{@git ? @git : "No data"}\n" \
-		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
-		"╚═══════════════════════════════════════════════════╝"
 	end
 end

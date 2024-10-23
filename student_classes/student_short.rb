@@ -3,30 +3,48 @@ require_relative 'person.rb'
 class StudentShort < Person
 	attr_reader :surname_with_initials
 
-	def initialize(option, student_id: nil)
-		if option.is_a?(Student)
-			self.student_id = option.student_id
-			student_info = option.get_info
-			parse_and_set_student_info(student_info)
-		elsif option.is_a?(String)
-			self.student_id = student_id
-			parse_and_set_student_info(option)
+	private_class_method :new
+
+	def initialize(surname_with_initials:, student_id: nil, git: nil, contact: nil)
+		self.student_id = student_id
+		self.surname_with_initials = surname_with_initials
+		self.git = git
+		set_contacts(contact)
+	end
+	
+	def self.new_from_student_object(student)
+		self.new(
+			student_id: student.student_id,
+			surname_with_initials: student.get_surname_with_initials,
+			git: student.git,
+			contact: student.get_contact
+		)
+	end
+
+	def self.new_from_string(string:, student_id: nil)
+		if valid_string_format?(string)
+			self.new(
+				student_id: student_id,
+				surname_with_initials: parse_surname_with_initials(string),
+				git: parse_git(string),
+				contact: parse_contact(string)
+			)
 		else
-			raise ArgumentError, "Invalid input type. Must be a Student object or a String."
+			raise ArgumentError, "String does not match the required format."
 		end
-	end	
+	end
 
 	def get_contact
-		@contact
+		return @contact
 	end
 
 	def contact_present?
-		!@contact.nil?
+		return !@contact.nil?
 	end
 
 	def self.valid_string_format?(input_string)
 		pattern = /^Surname and initials: .+ \| Git: .+ \| (Contact|Phone number|Telegram|Email): .+$/
-		input_string.match(pattern) != nil
+		return input_string.match(pattern) != nil
 	end
 
 	def self.valid_format_name?(surname_with_initials)
@@ -44,14 +62,14 @@ class StudentShort < Person
 		" Student ID: #{@student_id ? @student_id : 'No data'}\n" \
 		" Surname with Initials: #{@surname_with_initials}\n" \
 		" Git: #{@git ? @git : 'No data'}\n" \
-		" Contact: #{@contact ? @contact : 'No data'}\n" \
+		" #{get_contact_type(@contact)}: #{@contact ? @contact : 'No data'}\n" \
 		"╚═══════════════════════════════════════════════════╝"
 	end
 
 	private
 
-	def self.parse_surname_with_initials(input)
-		surname_with_initials_match = input.match(/Surname and initials: ([\w\s\.]+)/)
+	def self.parse_surname_with_initials(input_string)
+		surname_with_initials_match = input_string.match(/Surname and initials: ([\w\s\.]+)/)
 		if surname_with_initials_match
 			return surname_with_initials_match[1].strip
 		else
@@ -59,8 +77,8 @@ class StudentShort < Person
 		end
 	end
 
-	def self.parse_git(input)
-		git_match = input.match(/Git: (https?:\/\/[\w\.\/\-]+|No data)/)
+	def self.parse_git(input_string)
+		git_match = input_string.match(/Git: (https?:\/\/[\w\.\/\-]+|No data)/)
 		if git_match[1] == "No data"
 			return nil
 		elsif git_match
@@ -70,8 +88,8 @@ class StudentShort < Person
 		end
 	end
 
-	def self.parse_contact(input)
-		contact_match = input.match(/(?:Contact|Phone number|Telegram|Email): ([^|]+|No data)/)
+	def self.parse_contact(input_string)
+		contact_match = input_string.match(/(?:Contact|Phone number|Telegram|Email): ([^|]+|No data)/)
 		if contact_match[1] == "No data"
 			return nil
 		elsif contact_match
@@ -94,16 +112,6 @@ class StudentShort < Person
 			@contact = contact
 		else
 			raise ArgumentError, "Wrong contact format."
-		end
-	end
-
-	def parse_and_set_student_info(info)
-		if self.class.valid_string_format?(info)
-			self.surname_with_initials = self.class.parse_surname_with_initials(info)
-			self.git = self.class.parse_git(info)
-			self.set_contacts(self.class.parse_contact(info))
-		else
-			raise ArgumentError, "Provided information does not match the required format."
 		end
 	end
 end
