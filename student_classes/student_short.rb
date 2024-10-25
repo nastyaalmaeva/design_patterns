@@ -15,9 +15,9 @@ class StudentShort < Person
 	def self.new_from_student_object(student)
 		self.new(
 			student_id: student.student_id,
-			surname_with_initials: student.get_surname_with_initials,
+			surname_with_initials: student.surname_with_initials,
 			git: student.git,
-			contact: student.get_contact
+			contact: student.contact
 		)
 	end
 
@@ -34,7 +34,7 @@ class StudentShort < Person
 		end
 	end
 
-	def get_contact
+	def contact
 		return @contact
 	end
 

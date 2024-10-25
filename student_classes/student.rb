@@ -32,11 +32,11 @@ class Student < Person
 		end
 	end
 	
-	def get_surname_with_initials
+	def surname_with_initials
 		return "#{@surname} #{@name[0].upcase}. #{@patronymic[0].upcase}."
 	end
 
-	def get_contact
+	def contact
 		if @phone_number
 			return @phone_number
 		elsif @telegram
@@ -49,9 +49,9 @@ class Student < Person
 	end
 
 	def get_info
-		"Surname and initials: #{get_surname_with_initials} | " \
-		"Git: #{git ? git : 'No data'} | " \
-		"#{get_contact_type(get_contact)}: #{get_contact ? get_contact : 'No data'}"
+		"Surname and initials: #{self.surname_with_initials} | " \
+		"Git: #{self.git ? self.git : 'No data'} | " \
+		"#{get_contact_type(self.contact)}: #{self.contact ? self.contact : 'No data'}"
 	end
 	
 	def to_s

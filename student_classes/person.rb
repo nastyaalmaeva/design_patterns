@@ -93,7 +93,11 @@ class Person
 		raise NotImplementedError, "Method not implemented in the Person class"
 	end
 
-	def get_contact
+	def contact
+		raise NotImplementedError, "Method not implemented in the Person class"
+	end
+	
+	def surname_with_initials
 		raise NotImplementedError, "Method not implemented in the Person class"
 	end
 end
