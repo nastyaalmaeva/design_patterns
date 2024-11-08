@@ -63,6 +63,7 @@ class StudentShort < Person
 		" Surname with Initials: #{@surname_with_initials}\n" \
 		" Git: #{@git ? @git : 'No data'}\n" \
 		" #{get_contact_type(@contact)}: #{@contact ? @contact : 'No data'}\n" \
+		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
 		"╚═══════════════════════════════════════════════════╝"
 	end
 
