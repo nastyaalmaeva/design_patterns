@@ -65,11 +65,26 @@ def replace_elements_before_min_element
 	puts "Result: #{Processing.replace_elements_before_min_element(array).join(' ')}"
 end
 
+def find_max_element_in_interval
+	array = load_array
+	print "Enter the lower limit of the interval: "
+	range_start = gets.chomp.to_i
+	print "Enter the upper limit of the interval: "
+	range_end = gets.chomp.to_i
+	max_element = Processing.find_max_element_in_interval(array, range_start, range_end)
+	if max_element.nil?
+		puts "There are no elements in this interval"
+	else
+		puts "Result: #{max_element}"
+	end
+end
+
 def main
 	loop do
 		puts 'Select an action:'
 		puts '1. Find the number of elements located after the maximum'
 		puts '2. Place the elements located to the minimum at the end of the array'
+		puts '3. Find the maximum of the elements in the interval'
 		puts '0. Exit'
 
 		number_of_action = gets.chomp.to_i
@@ -82,6 +97,10 @@ def main
 		when 2
 			puts "\n"
 			replace_elements_before_min_element
+			clear_screen
+		when 3
+			puts "\n"
+			find_max_element_in_interval
 			clear_screen
 		when 0
 			exit

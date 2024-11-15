@@ -10,4 +10,10 @@ class Processing
 		min_elem_index = array.index { |element| element == min_element }
 		return array.rotate(min_elem_index)
 	end
+
+	def self.find_max_element_in_interval(array, range_start, range_end)
+		elements_in_range = array.select { |x| x >= range_start && x <= range_end }
+		max_element = elements_in_range.max { |a, b| a <=> b }
+		return max_element
+	end
 end
