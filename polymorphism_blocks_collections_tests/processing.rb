@@ -1,3 +1,5 @@
+require "./math_helper.rb"
+
 class Processing
 	def self.find_count_of_elements_after_max_element(array)
 		max_element = array.max { |a, b| a <=> b }
@@ -20,5 +22,10 @@ class Processing
 	def self.find_elements_less_than_left_neighbor(array)
 		array_of_indices = (1...array.size).select { |i| array[i] < array[i - 1] }
 		return array_of_indices
+	end
+
+	def self.find_unique_prime_factors(array)
+		prime_factors_array = array.flat_map { |num| MathHelper.prime_factors(num) }
+		return prime_factors_array.uniq
 	end
 end
