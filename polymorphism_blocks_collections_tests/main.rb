@@ -1,3 +1,5 @@
+require "./processing.rb"
+
 def get_array_from_file(file_path)
 	begin
 		File.open(file_path, "r") do |file|
@@ -53,14 +55,24 @@ def clear_screen
 	system('cls')
 end
 
+def find_count_of_elements_after_max_element
+	array = load_array
+	puts "Result: #{Processing.find_count_of_elements_after_max_element(array)}"
+end
+
 def main
 	loop do
 		puts 'Select an action:'
+		puts '1. Find the number of elements located after the maximum'
 		puts '0. Exit'
 
 		number_of_action = gets.chomp.to_i
 
 		case number_of_action
+		when 1
+			puts "\n"
+			find_count_of_elements_after_max_element
+			clear_screen
 		when 0
 			exit
 		else
