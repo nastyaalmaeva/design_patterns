@@ -7,7 +7,10 @@ def get_array_from_file(file_path)
 			file_content = file.read.chomp
 			cleaned_content = file_content.gsub(";", "").gsub(",", "")
 			string_array = cleaned_content.split
-			array = string_array.map { |x| x.to_i }
+			if string_array.empty?
+				raise "Input file is empty"
+			end
+			array = string_array.map { |x| Integer(x) }
 			return array
 		end
 	rescue => exception
@@ -17,11 +20,19 @@ def get_array_from_file(file_path)
 end
 
 def get_array_from_keyboard
-	input = gets.chomp
-	cleaned_content = input.gsub(";", "").gsub(",", "")
-	string_array = cleaned_content.split
-	array = string_array.map { |x| x.to_i }
-	return array
+	begin
+		input = gets.chomp
+		cleaned_content = input.gsub(";", "").gsub(",", "")
+		string_array = cleaned_content.split
+		if string_array.empty?
+			raise "Input string is empty"
+		end
+		array = string_array.map { |x| Integer(x) }
+		return array
+	rescue => exception
+		puts "Error: #{exception.message}"
+		exit
+	end
 end
 
 def load_array
