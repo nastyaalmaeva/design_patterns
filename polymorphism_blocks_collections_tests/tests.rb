@@ -52,6 +52,19 @@ class Tests < Minitest::Test
     assert_equal [-7, 5], processor.min_max { |a, b| a <=> b }
   end
 
+  # Тесты для метода none?
+  def test_none_positive
+    assert_equal false, processor.none? { |x| x > 0 }
+  end
+
+  def test_none_negative
+    assert_equal false, processor.none? { |x| x < 0 }
+  end
+
+  def test_none_all_positive
+    assert_equal true, processor.none? { |x| x > 100 }
+  end
+
   private
 
   attr_writer :processor

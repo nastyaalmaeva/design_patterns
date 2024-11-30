@@ -40,6 +40,14 @@ class ArrayProcessor
 		[min_element, max_element]
 	end
 
+	# Проверяет, не удовлетворяет ли ни один элемент условию блока
+	def none?
+		self.array.each do |element|
+			return false if yield(element)
+		end
+		true
+	end
+
 	def to_a
 		self.array.dup
 	end
