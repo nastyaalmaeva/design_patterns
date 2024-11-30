@@ -28,6 +28,18 @@ class ArrayProcessor
 		nil
 	end
 
+	# Возвращает минимальный и максимальный элементы в массиве
+	def min_max
+		return [nil, nil] if self.array.empty?
+
+		min_element = max_element = self.array[0]
+		self.array.each do |element|
+			min_element = element if yield(element, min_element) < 0
+			max_element = element if yield(element, max_element) > 0
+		end
+		[min_element, max_element]
+	end
+
 	def to_a
 		self.array.dup
 	end

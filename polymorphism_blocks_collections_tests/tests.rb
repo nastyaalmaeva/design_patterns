@@ -43,6 +43,15 @@ class Tests < Minitest::Test
     assert_nil processor.find_index { |x| x > 100 }
   end
 
+  # Тесты для метода min_max
+  def test_min_max_absolute
+    assert_equal [1, -7], processor.min_max { |a, b| a.abs <=> b.abs }
+  end
+
+  def test_min_max_natural_order
+    assert_equal [-7, 5], processor.min_max { |a, b| a <=> b }
+  end
+
   private
 
   attr_writer :processor
