@@ -108,6 +108,7 @@ def find_unique_prime_factors
 end
 
 def main
+	system('cls')
 	loop do
 		puts 'Select an action:'
 		puts '1. Find the number of elements located after the maximum'
