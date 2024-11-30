@@ -11,6 +11,15 @@ class ArrayProcessor
 		false
 	end
 
+	# Возвращает массив всех элементов, удовлетворяющих условию блока
+	def find_all
+		result = []
+		self.array.each do |element|
+			result << element if yield(element)
+		end
+		result
+	end
+
 	def to_a
 		self.array.dup
 	end

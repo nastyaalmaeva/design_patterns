@@ -21,6 +21,15 @@ class Tests < Minitest::Test
     assert_equal false, processor.any? { |x| x > 100 }
   end
 
+  # Тесты для метода find_all
+  def test_find_all_even
+    assert_equal [2, 2, 4], processor.find_all { |x| x.even? }
+  end
+
+  def test_find_all_positive
+    assert_equal [1, 5, 2, 2, 4], processor.find_all { |x| x > 0 }
+  end
+
   private
 
   attr_writer :processor
