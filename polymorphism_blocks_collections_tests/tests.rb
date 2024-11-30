@@ -65,6 +65,19 @@ class Tests < Minitest::Test
     assert_equal true, processor.none? { |x| x > 100 }
   end
 
+  # Тесты для метода reduce
+  def test_reduce_sum
+    assert_equal 7, processor.reduce(0) { |sum, x| sum + x }
+  end
+
+  def test_reduce_product
+    assert_equal -560, processor.reduce(1) { |prod, x| prod * x }
+  end
+
+  def test_reduce_max
+    assert_equal 5, processor.reduce { |max, x| max > x ? max : x }
+  end
+
   private
 
   attr_writer :processor

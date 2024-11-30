@@ -48,6 +48,17 @@ class ArrayProcessor
 		true
 	end
 
+	# Выполняет свертку массива с использованием начального значения (если указано)
+	def reduce(initial = nil)
+		accumulator = initial.nil? ? self.array[0] : initial
+		start_index = initial.nil? ? 1 : 0
+
+		self.array[start_index..-1].each do |element|
+			accumulator = yield(accumulator, element)
+		end
+		accumulator
+	end
+
 	def to_a
 		self.array.dup
 	end
