@@ -30,9 +30,7 @@ begin
 	)
 	
 	puts "HTML Tag:"
-	puts div.opening_tag
-	puts div.content
-	puts div.closing_tag
+	puts div
 
 rescue => exception
 	puts "Error: #{exception.message}"

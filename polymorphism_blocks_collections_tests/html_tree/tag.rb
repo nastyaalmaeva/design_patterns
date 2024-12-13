@@ -14,13 +14,13 @@ class Tag
 	def opening_tag
 		string_of_attributes = self.attributes.map { |key, value| "#{key}=\"#{value}\"" }.join(" ")
 		if string_of_attributes.empty?
-			if not self.closing?
+			if not self.self_closing?
 				return "<#{self.name}>"
 			else
 				return "<#{self.name}/>"
 			end
 		else
-			if not self.closing?
+			if not self.self_closing?
 				return "<#{self.name} #{string_of_attributes}>"
 			else
 				return "<#{self.name} #{string_of_attributes}/>"
@@ -29,11 +29,17 @@ class Tag
 	end
 
 	def closing_tag
-		if not self.closing?
+		if not self.self_closing?
 			return "</#{self.name}>"
 		else
 			return ""
 		end
+	end
+
+	def to_s
+		opening = self.opening_tag
+		closing = self.closing_tag
+		return opening + closing
 	end
 
 	def add_child(child)
@@ -42,17 +48,20 @@ class Tag
 
 	def self.parse_attributes(string_of_attributes)
 		attributes = {}
+		if string_of_attributes.nil?
+			return attributes
+		end
 		string_of_attributes.scan(/([a-zA-Z]+)="([^" >]*)"/) do |key, value|
 			attributes[key] = value
 		end
 		return attributes
 	end
 
-	def closing?
-		return SELF_CLOSING_TAGS.include?(name)
-	end
-
 	private
 
 	attr_writer :name, :attributes, :children
+
+	def self_closing?
+		return SELF_CLOSING_TAGS.include?(name)
+	end
 end
