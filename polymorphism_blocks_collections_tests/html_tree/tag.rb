@@ -57,11 +57,11 @@ class Tag
 		return attributes
 	end
 
-	private
-
-	attr_writer :name, :attributes, :children
-
 	def self_closing?
 		return SELF_CLOSING_TAGS.include?(name)
 	end
+
+	private
+
+	attr_writer :name, :attributes, :children
 end

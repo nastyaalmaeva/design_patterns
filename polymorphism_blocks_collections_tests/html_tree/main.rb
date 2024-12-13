@@ -1,4 +1,5 @@
 require "./tag.rb"
+require "./tree.rb"
 
 def read_html_file_to_string(file_path)
 	begin
@@ -21,6 +22,7 @@ begin
 	puts "HTML Content of the file:"
 	puts "\n"
 	puts html_content
+	tree = Tree.new(html_content)
 	puts "\n"
 
 	div = Tag.new(
