@@ -2,6 +2,7 @@ require_relative 'person.rb'
 require 'date'
 
 class Student < Person
+	include Comparable
 	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :birthdate
 	
 	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil, birthdate: nil)
@@ -69,6 +70,13 @@ class Student < Person
 		" Birthdate: #{@birthdate ? @birthdate : "No data"}\n" \
 		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
 		"╚═══════════════════════════════════════════════════╝"
+	end
+	
+	def <=>(other)
+		return nil unless other.is_a?(Student)
+		return 1 if (birthdate.nil? && other.birthdate.nil?) || (birthdate.nil?)
+		return -1 if other.birthdate.nil?
+		self.birthdate <=> other.birthdate
 	end
 	
 	private
