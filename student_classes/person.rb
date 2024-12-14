@@ -57,6 +57,14 @@ class Person
 		end
 	end
 	
+	def self.valid_format_birthdate?(birthdate)
+		if birthdate.nil? || birthdate.match(/^\d{2}\.\d{2}\.\d{4}$/)
+			return true
+		else
+			return false
+		end
+	end
+	
 	def get_contact_type(contact)
 		if contact.nil?
 			return "Contact"

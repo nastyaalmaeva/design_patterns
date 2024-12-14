@@ -11,7 +11,8 @@ begin
 		phone_number: "+7(905)-123-45-67",
 		telegram: "@nastya",
 		email_address: "nastya@gmail.com",
-		git: "https://github.com/nastyaalmaeva")
+		git: "https://github.com/nastyaalmaeva",
+		birthdate: "04.12.2005")
 	second_student = Student.new(
 		surname: "Kuznetsov",
 		name: "Dmitry",
@@ -19,7 +20,8 @@ begin
 		student_id: 2,
 		telegram: "@dmitry_k",
 		email_address: "dmitry.kuznetsov@gmail.com",
-		git: "https://github.com/dmitry_kuznetsov")
+		git: "https://github.com/dmitry_kuznetsov",
+		birthdate: "01.10.2001")
 	third_student = Student.new(
 		surname: "Fedorov",
 		name: "Maxim",
@@ -27,13 +29,15 @@ begin
 		student_id: 3,
 		phone_number: "+7(925)-888-99-11",
 		telegram: "@max_fed",
-		git: "https://github.com/max_fedorov")
+		git: "https://github.com/max_fedorov",
+		birthdate: "15.05.1992")
 	fourth_student = Student.new(
 		surname: "Ivanov",
 		name: "Sergey",
 		patronymic: "Viktorovich",
 		student_id: 4,
-		phone_number: "+7(910)-111-22-33")
+		phone_number: "+7(910)-111-22-33",
+		birthdate: "15.05.1995")
 	fifth_student = Student.new(
 		surname: "Petrov",
 		name: "Alexey",

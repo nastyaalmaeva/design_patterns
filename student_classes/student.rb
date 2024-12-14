@@ -1,14 +1,16 @@
 require_relative 'person.rb'
+require 'date'
 
 class Student < Person
-	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address
+	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :birthdate
 	
-	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil)
+	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil, birthdate: nil)
 		self.student_id = student_id
 		self.surname = surname
 		self.name = name
 		self.patronymic = patronymic
 		self.git = git
+		self.birthdate = birthdate
 		self.set_contacts(phone_number: phone_number, telegram: telegram, email_address: email_address)
 	end
 	
@@ -64,6 +66,7 @@ class Student < Person
 		" Telegram: #{@telegram ? @telegram : "No data"}\n" \
 		" Email Address: #{@email_address ? @email_address : "No data"}\n" \
 		" Git: #{@git ? @git : "No data"}\n" \
+		" Birthdate: #{@birthdate ? @birthdate : "No data"}\n" \
 		" Validation Status: #{self.validate? ? "Passed" : "Failed"}\n" \
 		"╚═══════════════════════════════════════════════════╝"
 	end
@@ -91,6 +94,18 @@ class Student < Person
 			@patronymic = patronymic
 		else
 			raise ArgumentError, "Wrong patronymic format. Expected format: English letters (A-Z) or Cyrillic letters (А-Я), optionally hyphenated."
+		end
+	end
+	
+	def birthdate=(birthdate)
+		if self.class.valid_format_birthdate?(birthdate)
+			if not birthdate.nil?
+				@birthdate = Date.strptime(birthdate, "%d.%m.%Y")
+			else
+				@birthdate = nil
+			end
+		else
+			raise ArgumentError, "Wrong birthdate format. Expected format: dd.mm.yyyy."
 		end
 	end
 end
