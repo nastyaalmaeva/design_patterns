@@ -1,6 +1,7 @@
 require_relative 'person.rb'
 require_relative 'student.rb'
 require_relative 'student_short.rb'
+require_relative 'binary_tree.rb'
 
 begin
 	first_student = Student.new(
@@ -74,6 +75,20 @@ begin
 	puts second_student_short
 	puts third_student_short
 	puts fourth_student_short
+	
+	age_tree = BinaryTree.new
+
+	age_tree.insert(first_student)
+	age_tree.insert(second_student)
+	age_tree.insert(third_student)
+	age_tree.insert(fourth_student)
+	age_tree.insert(fifth_student)
+
+	puts "\n"
+
+	puts "Sorted Students by Age:"
+	iterator = age_tree.iterator
+	iterator.each { |data| puts data }
 	
 rescue ArgumentError => e
 	print "An error occurred: #{e.message}"
