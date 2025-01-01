@@ -76,18 +76,26 @@ begin
 	puts third_student_short
 	puts fourth_student_short
 	
+	array_of_students = [first_student, second_student, third_student, fourth_student, fifth_student]
 	age_tree = BinaryTree.new
-
-	age_tree.insert(first_student)
-	age_tree.insert(second_student)
-	age_tree.insert(third_student)
-	age_tree.insert(fourth_student)
-	age_tree.insert(fifth_student)
-
+	
+	array_of_students.each { |element| age_tree.insert(element) }
+	
 	puts "\n"
-
+	
 	puts "Sorted Students by Age:"
 	iterator = age_tree.iterator
+	iterator.each { |data| puts data }
+	
+	array_of_digits = [1, 11, 34, 12, 45, 1]
+	digits_tree = BinaryTree.new { |a, b| a <=> b}
+	
+	array_of_digits.each { |element| digits_tree.insert(element) }
+	
+	puts "\n"
+	
+	puts "Sorted Digits:"
+	iterator = digits_tree.iterator
 	iterator.each { |data| puts data }
 	
 rescue ArgumentError => e

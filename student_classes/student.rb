@@ -73,10 +73,15 @@ class Student < Person
 	end
 	
 	def <=>(other)
-		return nil unless other.is_a?(Student)
-		return 1 if (birthdate.nil? && other.birthdate.nil?) || (birthdate.nil?)
-		return -1 if other.birthdate.nil?
-		self.birthdate <=> other.birthdate
+		if !other.is_a?(Student)
+			return nil
+		elsif (self.birthdate.nil? && other.birthdate.nil?) || (self.birthdate.nil?)
+			return 1
+		elsif other.birthdate.nil?
+			return -1
+		else
+			return self.birthdate <=> other.birthdate
+		end
 	end
 	
 	private
