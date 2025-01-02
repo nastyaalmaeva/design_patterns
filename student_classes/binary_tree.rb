@@ -4,13 +4,8 @@ require './tree_node.rb'
 class BinaryTree
 	attr_accessor :root
 	
-	def initialize(&comparator)
+	def initialize
 		self.root = nil
-		if block_given?
-			@comparator = comparator
-		else
-			@comparator = Proc.new { |a, b| a <=> b }
-		end
 	end
 	
 	def iterator
@@ -19,7 +14,7 @@ class BinaryTree
 	
 	def insert(data)
 		begin
-			self.class.valid_node?(data, self.root)
+			valid_node?(data)
 			if self.root.nil?
 				self.root = TreeNode.new(data)
 			else
@@ -32,19 +27,17 @@ class BinaryTree
 	
 	private
 	
-	def self.valid_node?(data, root)
+	def valid_node?(data)
 		if data.nil?
 			raise ArgumentError, "Data cannot be nil"
 		end
-		if !root.nil?
-			if !data.is_a?(root.data.class)
-				raise ArgumentError, "All nodes must be of the same class"
-			end
+		if !self.root.nil? && !self.root.data.is_a?(data.class)
+			raise ArgumentError, "All nodes must be of the same class as the root node"
 		end
 	end
 	
 	def insert_node(previous_node, data)
-		if compare(data, previous_node.data) < 0
+		if data < previous_node.data
 			if previous_node.left.nil?
 				previous_node.left = TreeNode.new(data)
 			else
@@ -55,9 +48,5 @@ class BinaryTree
 		else
 			insert_node(previous_node.right, data)
 		end
-	end
-	
-	def compare(a, b)
-		@comparator.call(a, b)
 	end
 end
