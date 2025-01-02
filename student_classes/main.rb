@@ -76,6 +76,7 @@ begin
 	puts third_student_short
 	puts fourth_student_short
 	
+	# BinaryTree of Students
 	array_of_students = [first_student, second_student, third_student, fourth_student, fifth_student]
 	age_tree = BinaryTree.new
 	
@@ -87,17 +88,24 @@ begin
 	iterator = age_tree.iterator
 	iterator.each { |data| puts data }
 	
-	array_of_digits = [1, 11, 34, 12, 45, 1]
-	digits_tree = BinaryTree.new { |a, b| a <=> b}
+	# BinaryTree of Numbers
+	array_of_numbers = [1, 11, 34, 12, 45, 5]
+	numbers_tree = BinaryTree.new
 	
-	array_of_digits.each { |element| digits_tree.insert(element) }
+	array_of_numbers.each { |element| numbers_tree.insert(element) }
 	
 	puts "\n"
 	
-	puts "Sorted Digits:"
-	iterator = digits_tree.iterator
+	puts "Sorted Numbers:"
+	iterator = numbers_tree.iterator
 	iterator.each { |data| puts data }
 	
+	puts "\n"
+	
+	puts "Numbers less than 10:"
+	iterator = numbers_tree.iterator
+	iterator.select { |number| number < 10 }.each { |data| puts data }
+
 rescue ArgumentError => e
 	print "An error occurred: #{e.message}"
 end
