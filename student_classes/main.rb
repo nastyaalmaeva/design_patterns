@@ -4,6 +4,7 @@ require_relative 'student_short.rb'
 require_relative 'binary_tree.rb'
 require_relative 'data_table.rb'
 require_relative 'data_list.rb'
+require_relative 'data_list_student_short.rb'
 
 begin
 	first_student = Student.new(
@@ -108,42 +109,28 @@ begin
 	iterator = numbers_tree.iterator
 	iterator.select { |number| number < 10 }.each { |data| puts data }
 	
-	# DataTable Testing
-	data_table = [
-	  [1, 'Alice', 25],
-	  [2, 'Bob', 30],
-	  [3, 'Charlie', 22]
-	]
+	# DataListStudentShort Testing
 	
-	data_table_obj = DataTable.new(data_table)
+	array_of_short_students = [first_student_short, second_student_short, third_student_short, fourth_student_short]
+	
+	data_list_student_short = DataListStudentShort.new(array_of_short_students)
 	
 	puts "\n"
 	
-	puts "Row count: #{data_table_obj.row_count}"
-	
-	puts "Column count: #{data_table_obj.column_count}"
-	
-	puts "Element at (0, 0): #{data_table_obj.get_element(0, 0)}"
-	
-	# DataList Testing
-	data_list = ['Alice', 'Bob', 'Charlie']
-	
-	data_list_obj = DataList.new(data_list)
+	puts "Table headers (attribute names):"
+	puts data_list_student_short.get_names
 	
 	puts "\n"
 	
-	puts "Data in DataList:"
-	puts data_list_obj.data
+	selected_indexes = [0, 1, 2]
+	selected_indexes.each { |element| data_list_student_short.select(element) }
+	
+	puts "Selected StudentShort objects: #{data_list_student_short.get_selected}"
 	
 	puts "\n"
 	
-	data_list_obj.select(0)
-	
-	puts "Selected elements after choosing index 0: #{data_list_obj.get_selected}"
-	
-	data_list_obj.select(2)
-	
-	puts "Selected elements after choosing index 2: #{data_list_obj.get_selected}"
+	puts "Generated DataTable from selected data:"
+	puts data_list_student_short.generate_table
 
 rescue => e
 	print "An error occurred: #{e.message}"

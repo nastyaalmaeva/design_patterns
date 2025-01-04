@@ -26,6 +26,10 @@ class DataList
 		self.selected
 	end
 	
+	def clear_selected
+		self.selected = []
+	end
+	
 	def generate_table
 		headers = get_names
 		rows = get_data
