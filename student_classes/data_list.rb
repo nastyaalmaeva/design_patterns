@@ -1,8 +1,6 @@
 require_relative 'data_table.rb'
 
 class DataList
-	attr_reader :data
-	
 	def initialize(data)
 		self.data = data
 		self.selected = []
@@ -11,34 +9,32 @@ class DataList
 	def select(number)
 		if !number.is_a?(Integer)
 			raise ArgumentError, "Index must be an integer"
-		elsif number < 0 || number >= data.size
-			raise IndexError, "Element with index #{number} does not exist"
-		else
-			element = self.data[number]
-			if !self.selected.include?(number)
-				self.selected << number
-			end
-			return element
 		end
+		if number < 0 || number >= data.size
+			raise IndexError, "Element with index #{number} does not exist"
+		end
+		element = self.data[number]
+		if !get_selected.include?(number)
+			get_selected << number
+		end
+		return element
 	end
 	
 	def get_selected
-		self.selected
+		return @selected
 	end
 	
 	def clear_selected
 		self.selected = []
 	end
 	
-	def generate_table
+	def get_data
 		headers = get_names
-		rows = get_data
-		return DataTable.new([headers] + rows)
+		rows = get_rows
+		return DataTable.new(headers, rows)
 	end
 	
 	protected
-	
-	attr_accessor :selected
 	
 	def get_names
 		raise NotImplementedError, "Method not implemented in the DataList class"
@@ -48,7 +44,7 @@ class DataList
 		raise NotImplementedError, "Method not implemented in the DataList class"
 	end
 	
-	def get_data
+	def get_rows
 		row_index = 1
 		rows = []
 		selected_indixes = get_selected
@@ -63,11 +59,14 @@ class DataList
 	
 	private
 	
+	attr_reader :data
+	attr_writer :selected
+	
 	def data=(data)
 		if !data.is_a?(Array)
 			raise ArgumentError, "Data must be an array"
 		else
-			@data = data
+			@data = data.map { |element| element.dup }
 		end
 	end
 end
