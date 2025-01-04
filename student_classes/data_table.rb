@@ -1,10 +1,10 @@
 class DataTable
-	def initialize(data)
-		self.data = data
+	def initialize(headers, data)
+		self.data = [headers] + data
 	end
 	
 	def row_count
-		return self.data.size
+		return self.data.size - 1
 	end
 	
 	def column_count
@@ -16,34 +16,62 @@ class DataTable
 	end
 	
 	def get_element(row_index, column_index)
-		raise IndexError, "Row index out of bounds" if row_index < 0 || row_index >= row_count
-		raise IndexError, "Column index out of bounds" if column_index < 0 || column_index >= column_count
-		
+		if !valid_row_index?(row_index)
+			raise IndexError, "Row index out of bounds"
+		end
+		if !valid_column_index?(column_index)
+			raise IndexError, "Column index out of bounds"
+		end
 		return self.data[row_index][column_index]
 	end
 	
 	def to_s
 		if data.empty?
-			return "Empty table"
+			return "Sorry, table is empty"
 		else
-			output = "╔═══════════════════════════════════════════════════════════════════════╗\n"
+			output = "╔═══════════════════════════════════════════════════════════════════════════════════════╗\n"
 			data.each do |row|
-				output += " #{row.join(' | ')}\n"
+				output += format(" %-3s | %-24s | %-32s | %-20s\n", row[0], row[1], row[2], row[3])
 			end
-			output += "╚═══════════════════════════════════════════════════════════════════════╝"
+			output += "╚═══════════════════════════════════════════════════════════════════════════════════════╝"
+			return output
 		end
-		return output
+	end
+	
+	def update_data(new_data)
+		if !new_data.is_a?(Array) || !new_data.all? { |row| row.is_a?(Array) }
+			raise ArgumentError, "Data must be a two-dimensional array"
+		else
+			self.data[1..-1] = new_data.map { |element| element.dup }
+		end
 	end
 	
 	private
 	
 	attr_reader :data
+	attr_accessor :headers
 	
 	def data=(data)
 		if !data.is_a?(Array) || !data.all? { |row| row.is_a?(Array) }
 			raise ArgumentError, "Data must be a two-dimensional array"
 		else
 			@data = data.map { |element| element.dup }
+		end
+	end
+	
+	def valid_row_index?(row_index)
+		if row_index < 0 || row_index >= row_count
+			return false
+		else
+			return true
+		end
+	end
+	
+	def valid_column_index?(column_index)
+		if column_index < 0 || column_index >= column_count
+			return false
+		else
+			return true
 		end
 	end
 end

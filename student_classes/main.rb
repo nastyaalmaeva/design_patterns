@@ -73,6 +73,12 @@ begin
 	second_student_short = StudentShort.new_from_string(string: "Surname and initials: Ivanov I. I.  | Git: https://github.com/ivanovich | Phone number: +7(912)-123-45-67", student_id: 2)
 	third_student_short = StudentShort.new_from_string(string: "Surname and initials: Petrova P. P.  | Git: https://github.com/petrova_p | Telegram: @p_petrova", student_id: 3)
 	fourth_student_short = StudentShort.new_from_string(string: "Surname and initials: Sidorov S. S. | Git: No data                      | Contact: No data", student_id: 4)
+	fifth_student_short = StudentShort.new_from_string(string: "Surname and initials: Petrov P. P.  | Git: https://github.com/petrovpp | Phone number: +7(900)-555-55-55", student_id: 5)
+	sixth_student_short = StudentShort.new_from_string(string: "Surname and initials: Vasiliev V. V.  | Git: https://github.com/vasilievvv | Telegram: @v_vasiliev", student_id: 6)
+	seventh_student_short = StudentShort.new_from_string(string: "Surname and initials: Korolev K. K. | Git: https://github.com/korolevkk | Contact: No data", student_id: 7)
+	eighth_student_short = StudentShort.new_from_string(string: "Surname and initials: Novikov N. N. | Git: https://github.com/novikovnn | Phone number: +7(912)-333-44-55", student_id: 8)
+	ninth_student_short = StudentShort.new_from_string(string: "Surname and initials: Fedorov F. F.  | Git: https://github.com/fedorovff | Telegram: @fedorovff", student_id: 9)
+	tenth_student_short = StudentShort.new_from_string(string: "Surname and initials: Egorov E. E. | Git: No data                      | Contact: No data", student_id: 10)
 	
 	puts first_student_short
 	puts second_student_short
@@ -109,28 +115,32 @@ begin
 	iterator = numbers_tree.iterator
 	iterator.select { |number| number < 10 }.each { |data| puts data }
 	
-	# DataListStudentShort Testing
+	puts "\n\n\n"
 	
-	array_of_short_students = [first_student_short, second_student_short, third_student_short, fourth_student_short]
+	# DataListStudentShort Testing
+	array_of_short_students = [
+		first_student_short,
+		second_student_short,
+		third_student_short,
+		fourth_student_short,
+		fifth_student_short,
+		sixth_student_short,
+		seventh_student_short,
+		eighth_student_short,
+		ninth_student_short,
+		tenth_student_short
+	]
 	
 	data_list_student_short = DataListStudentShort.new(array_of_short_students)
 	
-	puts "\n"
-	
-	puts "Table headers (attribute names):"
-	puts data_list_student_short.get_names
-	
-	puts "\n"
-	
-	selected_indexes = [0, 1, 2]
+	selected_indexes = [0, 1, 2, 5, 7]
 	selected_indexes.each { |element| data_list_student_short.select(element) }
 	
-	puts "Selected StudentShort objects: #{data_list_student_short.get_selected}"
-	
-	puts "\n"
-	
 	puts "Generated DataTable from selected data:"
-	puts data_list_student_short.generate_table
+	data_table_student_short = data_list_student_short.get_data
+	puts data_table_student_short
+	
+	data_list_student_short.clear_selected
 
 rescue => e
 	print "An error occurred: #{e.message}"
