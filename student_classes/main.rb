@@ -2,6 +2,7 @@ require_relative 'person.rb'
 require_relative 'student.rb'
 require_relative 'student_short.rb'
 require_relative 'binary_tree.rb'
+require_relative 'data_table.rb'
 
 begin
 	first_student = Student.new(
@@ -105,7 +106,22 @@ begin
 	puts "Numbers less than 10:"
 	iterator = numbers_tree.iterator
 	iterator.select { |number| number < 10 }.each { |data| puts data }
+	
+	# DataTable Testing
+	data = [
+	  [1, 'Alice', 25],
+	  [2, 'Bob', 30],
+	  [3, 'Charlie', 22]
+	]
+	
+	data_table_obj = DataTable.new(data)
+	
+	puts "Row count: #{data_table_obj.row_count}"
+	
+	puts "Column count: #{data_table_obj.column_count}"
+	
+	puts "Element at (0, 0): #{data_table_obj.get_element(0, 0)}"
 
-rescue ArgumentError => e
+rescue => e
 	print "An error occurred: #{e.message}"
 end
