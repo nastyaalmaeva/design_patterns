@@ -1,6 +1,5 @@
 class DataList
 	attr_reader :data
-	attr_accessor :selected
 	
 	def initialize(data)
 		self.data = data
@@ -25,6 +24,10 @@ class DataList
 		self.selected
 	end
 	
+	protected
+	
+	attr_accessor :selected
+	
 	def get_names
 		raise NotImplementedError, "Method not implemented in the DataList class"
 	end
@@ -39,7 +42,7 @@ class DataList
 		if !data.is_a?(Array)
 			raise ArgumentError, "Data must be an array"
 		else
-			@data = data.sort
+			@data = data
 		end
 	end
 end

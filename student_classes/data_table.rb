@@ -22,7 +22,21 @@ class DataTable
 		return self.data[row_index][column_index]
 	end
 	
+	def to_s
+		if data.empty?
+			return "Empty table"
+		else
+			output = "╔═══════════════════════════════════════════════════════════════════════╗\n"
+			data.each do |row|
+				output += " #{row.join(' | ')}\n"
+			end
+			output += "╚═══════════════════════════════════════════════════════════════════════╝"
+		end
+		return output
+	end
+	
 	private
+	
 	attr_reader :data
 	
 	def data=(data)
