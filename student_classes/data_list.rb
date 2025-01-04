@@ -1,3 +1,5 @@
+require_relative 'data_table.rb'
+
 class DataList
 	attr_reader :data
 	
@@ -24,6 +26,12 @@ class DataList
 		self.selected
 	end
 	
+	def generate_table
+		headers = get_names
+		rows = get_data
+		return DataTable.new([headers] + rows)
+	end
+	
 	protected
 	
 	attr_accessor :selected
@@ -32,8 +40,21 @@ class DataList
 		raise NotImplementedError, "Method not implemented in the DataList class"
 	end
 	
-	def get_data
+	def build_row
 		raise NotImplementedError, "Method not implemented in the DataList class"
+	end
+	
+	def get_data
+		row_index = 1
+		rows = []
+		selected_indixes = get_selected
+		selected_indixes.each do |selected_index|
+			selected_obj = self.data[selected_index]
+			row_data = build_row(row_index, selected_obj)
+			rows.append(row_data)
+			row_index += 1
+		end
+		return rows
 	end
 	
 	private
