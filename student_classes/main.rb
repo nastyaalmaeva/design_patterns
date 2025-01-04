@@ -116,6 +116,8 @@ begin
 	
 	data_table_obj = DataTable.new(data)
 	
+	puts "\n"
+	
 	puts "Row count: #{data_table_obj.row_count}"
 	
 	puts "Column count: #{data_table_obj.column_count}"
