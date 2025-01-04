@@ -3,6 +3,7 @@ require_relative 'student.rb'
 require_relative 'student_short.rb'
 require_relative 'binary_tree.rb'
 require_relative 'data_table.rb'
+require_relative 'data_list.rb'
 
 begin
 	first_student = Student.new(
@@ -108,13 +109,13 @@ begin
 	iterator.select { |number| number < 10 }.each { |data| puts data }
 	
 	# DataTable Testing
-	data = [
+	data_table = [
 	  [1, 'Alice', 25],
 	  [2, 'Bob', 30],
 	  [3, 'Charlie', 22]
 	]
 	
-	data_table_obj = DataTable.new(data)
+	data_table_obj = DataTable.new(data_table)
 	
 	puts "\n"
 	
@@ -123,6 +124,26 @@ begin
 	puts "Column count: #{data_table_obj.column_count}"
 	
 	puts "Element at (0, 0): #{data_table_obj.get_element(0, 0)}"
+	
+	# DataList Testing
+	data_list = ['Alice', 'Bob', 'Charlie']
+	
+	data_list_obj = DataList.new(data_list)
+	
+	puts "\n"
+	
+	puts "Data in DataList:"
+	puts data_list_obj.data
+	
+	puts "\n"
+	
+	data_list_obj.select(0)
+	
+	puts "Selected elements after choosing index 0: #{data_list_obj.get_selected}"
+	
+	data_list_obj.select(2)
+	
+	puts "Selected elements after choosing index 2: #{data_list_obj.get_selected}"
 
 rescue => e
 	print "An error occurred: #{e.message}"
