@@ -103,6 +103,14 @@ class StudentsListJSON
 		self.students[index] = new_student
 	end
 	
+	def delete_student_by_id(student_id)
+		index = self.students.find_index { |student| student.student_id == student_id }
+		if index.nil?
+			raise StandardError, "Student with ID #{student_id} not found."
+		end
+		self.students.delete_at(index)
+	end
+	
 	private
 	
 	attr_accessor :file_path, :students
