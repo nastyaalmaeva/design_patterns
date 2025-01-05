@@ -57,4 +57,8 @@ class StudentsListJSON
 			raise StandardError, "Failed to write to file: #{error.message}"
 		end
 	end
+	
+	def get_student_by_id(id)
+		return self.students.find { |student| student.student_id == id }
+	end
 end

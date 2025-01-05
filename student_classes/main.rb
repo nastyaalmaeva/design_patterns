@@ -157,6 +157,8 @@ begin
 	read_students = students_list_from_file.read_from_file
 	puts "\nStudents read from file:"
 	read_students.each { |student| puts student.get_info }
+	
+	puts students_list_from_file.get_student_by_id(3)
 
 rescue => e
 	print "An error occurred: #{e.message}"
