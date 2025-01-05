@@ -79,6 +79,8 @@ class Person
 		end
 	end
 	
+	protected
+	
 	def student_id=(student_id)
 		if self.class.valid_student_id?(student_id)
 			@student_id = student_id
@@ -86,8 +88,6 @@ class Person
 			raise ArgumentError, "Wrong student id format."
 		end
 	end
-	
-	protected
 	
 	def git=(git)
 		if self.class.valid_format_git?(git)

@@ -2,6 +2,7 @@ require_relative 'data_list.rb'
 require_relative 'data_table.rb'
 
 class DataListStudentShort < DataList
+	public :data=
 	def get_names
 		return ["№", "surname_with_initials", "git", "contact"]
 	end

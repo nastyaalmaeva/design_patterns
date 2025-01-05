@@ -2,7 +2,7 @@ require_relative 'person.rb'
 
 class StudentShort < Person
 	attr_reader :surname_with_initials
-
+	
 	private_class_method :new
 
 	def initialize(surname_with_initials:, student_id: nil, git: nil, contact: nil)

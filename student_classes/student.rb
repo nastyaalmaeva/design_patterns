@@ -5,6 +5,8 @@ class Student < Person
 	include Comparable
 	attr_reader :surname, :name, :patronymic, :phone_number, :telegram, :email_address, :birthdate
 	
+	public :student_id=
+	
 	def initialize(surname:, name:, patronymic:, student_id: nil, phone_number: nil, telegram: nil, email_address: nil, git: nil, birthdate: nil)
 		self.student_id = student_id
 		self.surname = surname
@@ -81,6 +83,29 @@ class Student < Person
 			return -1
 		else
 			return self.birthdate <=> other.birthdate
+		end
+	end
+	
+	def ==(other)
+		if !other.is_a?(Student)
+			return false
+		end
+		git_match = false
+		if !self.git.nil? && !other.git.nil?
+			if self.git == other.git
+				git_match = true
+			end
+		end
+		contact_match = false
+		if !self.contact.nil? && !other.contact.nil?
+			if self.contact == other.contact
+				contact_match = true
+			end
+		end
+		if git_match || contact_match
+			return true
+		else
+			return false
 		end
 	end
 	

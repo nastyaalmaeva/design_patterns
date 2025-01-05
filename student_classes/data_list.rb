@@ -51,10 +51,9 @@ class DataList
 	def get_rows
 		row_index = 1
 		rows = []
-		selected_indixes = get_selected
-		selected_indixes.each do |selected_index|
-			selected_obj = self.data[selected_index]
-			row_data = build_row(row_index, selected_obj)
+		data.each_with_index do |element, index|
+			current_object = self.data[index]
+			row_data = build_row(row_index, current_object)
 			rows.append(row_data)
 			row_index += 1
 		end

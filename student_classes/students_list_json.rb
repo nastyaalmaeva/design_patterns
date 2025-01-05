@@ -14,21 +14,16 @@ class StudentsListJSON
 		else
 			begin
 				File.open(self.file_path, 'r') do |file|
-					content = file.read
-					
+					content = file.read		
 					if content.strip.empty?
 						return []
 					end
-					
 					data = JSON.parse(content, symbolize_names: true)
-					
 					if !data.is_a?(Array) || !data.all? { |entry| entry.is_a?(Hash) }
 						raise StandardError, "Invalid JSON structure. Expected an array of hashes."
 					end
-					
-					students = data.map { |entry| Student.new(**entry) }
-					
-					return students
+					self.students = []
+					data.each { |entry| add_student(Student.new(**entry)) }
 				end
 			rescue JSON::ParserError => e
 				raise StandardError, "JSON parsing error: #{e.message}"
@@ -40,13 +35,10 @@ class StudentsListJSON
 		if self.students.nil? || !self.students.all? { |student| student.is_a?(Student) }
 			raise StandardError, "The students list is not initialized or contains invalid entries"
 		end
-		
 		if self.file_path.nil? || self.file_path.empty?
 			raise StandardError, "The file path is not defined"
 		end
-		
 		student_data = self.students.map { |student| student.to_h }
-		
 		begin
 			File.open(self.file_path, 'w') do |file|
 				file.write(JSON.pretty_generate(student_data))
@@ -64,17 +56,16 @@ class StudentsListJSON
 		if page_number < 1 || page_size <= 0
 			raise StandardError, "Invalid arguments: page_number must be greater than 0, and page_size must be positive."
 		end
-		
 		start_index = (page_number - 1) * page_size
 		selected_students = self.students[start_index, page_size]
 		if selected_students.nil?
 			selected_students = []
 		end
 		student_short_objects = selected_students.map { |student| StudentShort.new_from_student_object(student) }
-		
 		if existing_data_list.nil?
 			existing_data_list = DataListStudentShort.new(student_short_objects)
-			existing_data_list.select_all
+		else
+			existing_data_list.data = student_short_objects
 		end
 		return existing_data_list
 	end
@@ -84,6 +75,9 @@ class StudentsListJSON
     end
 	
 	def add_student(new_student)
+		if self.students.any? { |existing_student| existing_student == new_student }
+			raise StandardError, "Student with similar git or contact already exists."
+		end
 		existing_ids = self.students.map(&:student_id)
 		if existing_ids.empty?
 			highest_student_id = 0

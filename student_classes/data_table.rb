@@ -31,7 +31,7 @@ class DataTable
 		else
 			output = "╔════════════════════════════════════════════════════════════════════════════════════════════════╗\n"
 			data.each do |row|
-				output += format(" %-3s | %-24s | %-35s | %-20s\n", row[0], row[1], row[2], row[3])
+				output += format(" %-3s | %-24s | %-35s | %-20s\n", (row[0] ? row[0] : "No data"), (row[1] ? row[1] : "No data"), (row[2] ? row[2] : "No data"), (row[3] ? row[3] : "No data"))
 			end
 			output += "╚════════════════════════════════════════════════════════════════════════════════════════════════╝"
 			return output
