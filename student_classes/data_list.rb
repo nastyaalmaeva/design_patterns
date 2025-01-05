@@ -34,6 +34,10 @@ class DataList
 		return DataTable.new(headers, rows)
 	end
 	
+	def select_all
+		self.selected = (0...data.size).to_a
+	end
+	
 	protected
 	
 	def get_names

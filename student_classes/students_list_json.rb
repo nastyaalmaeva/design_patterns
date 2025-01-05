@@ -61,4 +61,27 @@ class StudentsListJSON
 	def get_student_by_id(id)
 		return self.students.find { |student| student.student_id == id }
 	end
+	
+	def get_k_n_student_short_list(page_number, page_size, existing_data_list = nil)
+		if page_number < 1 || page_size <= 0
+			raise StandardError, "Invalid arguments: page_number must be greater than 0, and page_size must be positive."
+		end
+		
+		start_index = (page_number - 1) * page_size
+		selected_students = self.students[start_index, page_size]
+		if selected_students.nil?
+			selected_students = []
+		end
+		student_short_objects = selected_students.map { |student| StudentShort.new_from_student_object(student) }
+		
+		if existing_data_list.nil?
+			existing_data_list = DataListStudentShort.new(student_short_objects)
+			existing_data_list.select_all
+		else
+			existing_data_list.clear_selected
+			existing_data_list.data = student_short_objects
+			existing_data_list.select_all
+		end
+		return existing_data_list
+	end
 end

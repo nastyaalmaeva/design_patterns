@@ -48,6 +48,50 @@ begin
 		name: "Alexey",
 		patronymic: "Dmitrievich",
 		student_id: 5)
+	sixth_student = Student.new(
+		surname: "Sidorov",
+		name: "Nikolay",
+		patronymic: "Petrovich",
+		student_id: 6,
+		phone_number: "+7(901)-222-33-44",
+		telegram: "@nikolay_sid",
+		email_address: "nikolay.sidorov@gmail.com",
+		git: "https://github.com/nikolay_sidorov",
+		birthdate: "20.03.1993")
+	seventh_student = Student.new(
+		surname: "Smirnov",
+		name: "Ivan",
+		patronymic: "Alexandrovich",
+		student_id: 7,
+		telegram: "@ivan_smirnov",
+		email_address: "ivan.smirnov@gmail.com",
+		git: "https://github.com/ivan_smirnov",
+		birthdate: "18.07.1998")
+	eighth_student = Student.new(
+		surname: "Popov",
+		name: "Artem",
+		patronymic: "Igorevich",
+		student_id: 8,
+		phone_number: "+7(902)-333-44-55",
+		email_address: "artem.popov@gmail.com",
+		birthdate: "12.02.1997")
+	ninth_student = Student.new(
+		surname: "Vasiliev",
+		name: "Andrey",
+		patronymic: "Sergeevich",
+		student_id: 9,
+		telegram: "@andrey_vas",
+		git: "https://github.com/andrey_vasiliev",
+		birthdate: "10.11.2000")
+	tenth_student = Student.new(
+		surname: "Novikov",
+		name: "Egor",
+		patronymic: "Vladimirovich",
+		student_id: 10,
+		phone_number: "+7(903)-444-55-66",
+		email_address: "egor.novikov@gmail.com",
+		git: "https://github.com/egor_novikov",
+		birthdate: "30.09.1995")
 	
 	puts first_student
 	puts second_student
@@ -145,20 +189,31 @@ begin
 	
 	# StudentsListJSON Testing
 	
+	array_of_students = [
+		first_student, second_student, third_student, fourth_student, fifth_student,
+		sixth_student, seventh_student, eighth_student, ninth_student, tenth_student
+	]
+	
 	file_path = 'students.json'
 	
 	students_list = StudentsListJSON.new(file_path)
-	students_list.students = [first_student, second_student, third_student]
+	array_of_students.each { |student_object| students_list.students << student_object} 
 	
 	students_list.write_to_file
 	puts "Data successfully written to file!"
 	
 	students_list_from_file = StudentsListJSON.new(file_path)
 	read_students = students_list_from_file.read_from_file
+	
 	puts "\nStudents read from file:"
 	read_students.each { |student| puts student.get_info }
 	
 	puts students_list_from_file.get_student_by_id(3)
+	
+	data_list_student_short_from_json = students_list_from_file.get_k_n_student_short_list(2, 5)
+	
+	data_table_student_short_from_json = data_list_student_short_from_json.get_data
+	puts data_table_student_short_from_json
 
 rescue => e
 	print "An error occurred: #{e.message}"
