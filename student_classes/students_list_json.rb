@@ -95,13 +95,13 @@ class StudentsListJSON
 	end
 	
 	def replace_student(required_student_id, new_student)
-		index = self.students.find_index { |student| student.student_id == required_student_id }
+        index = self.students.find_index { |student| student.student_id == required_student_id }
 		if index.nil?
 			raise StandardError, "Student with ID #{required_student_id} not found."
 		end
 		new_student.student_id = required_student_id
 		self.students[index] = new_student
-	end
+    end
 	
 	def delete_student_by_id(student_id)
 		index = self.students.find_index { |student| student.student_id == student_id }
@@ -109,6 +109,10 @@ class StudentsListJSON
 			raise StandardError, "Student with ID #{student_id} not found."
 		end
 		self.students.delete_at(index)
+	end
+	
+	def get_student_short_count
+		return self.students.size
 	end
 	
 	private

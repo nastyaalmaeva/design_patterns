@@ -90,7 +90,6 @@ class Student < Person
 			surname: self.surname,
 			name: self.name,
 			patronymic: self.patronymic,
-			student_id: self.student_id,
 			phone_number: self.phone_number,
 			telegram: self.telegram,
 			email_address: self.email_address,

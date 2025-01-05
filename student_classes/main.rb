@@ -212,7 +212,7 @@ begin
 	puts "\n\n"
 	
 	students_list_json.sort_by_surname_with_initials!
-	students_list_json.delete_student_by_id(1)
+	puts students_list_json.get_student_short_count
 	
 	data_list_sorted_student_short_from_json = students_list_json.get_k_n_student_short_list(1, 3)
 	
