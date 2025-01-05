@@ -94,6 +94,15 @@ class StudentsListJSON
 		self.students << new_student
 	end
 	
+	def replace_student(required_student_id, new_student)
+		index = self.students.find_index { |student| student.student_id == required_student_id }
+		if index.nil?
+			raise StandardError, "Student with ID #{required_student_id} not found."
+		end
+		new_student.student_id = required_student_id
+		self.students[index] = new_student
+	end
+	
 	private
 	
 	attr_accessor :file_path, :students

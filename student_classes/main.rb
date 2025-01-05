@@ -212,6 +212,8 @@ begin
 	puts "\n\n"
 	
 	students_list_json.sort_by_surname_with_initials!
+	students_list_json.replace_student(1, tenth_student)
+	
 	data_list_sorted_student_short_from_json = students_list_json.get_k_n_student_short_list(1, 3)
 	
 	sorted_data_table_student_short_from_json = data_list_sorted_student_short_from_json.get_data
