@@ -5,6 +5,7 @@ require_relative 'binary_tree.rb'
 require_relative 'data_table.rb'
 require_relative 'data_list.rb'
 require_relative 'data_list_student_short.rb'
+require_relative 'students_list_json.rb'
 
 begin
 	first_student = Student.new(
@@ -141,6 +142,21 @@ begin
 	puts data_table_student_short
 	
 	data_list_student_short.clear_selected
+	
+	# StudentsListJSON Testing
+	
+	file_path = 'students.json'
+	
+	students_list = StudentsListJSON.new(file_path)
+	students_list.students = [first_student, second_student, third_student]
+	
+	students_list.write_to_file
+	puts "Data successfully written to file!"
+	
+	students_list_from_file = StudentsListJSON.new(file_path)
+	read_students = students_list_from_file.read_from_file
+	puts "\nStudents read from file:"
+	read_students.each { |student| puts student.get_info }
 
 rescue => e
 	print "An error occurred: #{e.message}"

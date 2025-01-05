@@ -1,0 +1,35 @@
+[
+  {
+    "surname": "Almaeva",
+    "name": "Anastasia",
+    "patronymic": "Ilyinichna",
+    "student_id": 1,
+    "phone_number": "+7(888)-777-66-55",
+    "telegram": null,
+    "email_address": null,
+    "git": "https://github.com/nastyaalmaeva",
+    "birthdate": "04.12.2005"
+  },
+  {
+    "surname": "Kuznetsov",
+    "name": "Dmitry",
+    "patronymic": "Nikolaevich",
+    "student_id": 2,
+    "phone_number": null,
+    "telegram": null,
+    "email_address": "dmitry_dev@gmail.com",
+    "git": "https://github.com/dmitry_kuznetsov",
+    "birthdate": "01.10.2001"
+  },
+  {
+    "surname": "Fedorov",
+    "name": "Maxim",
+    "patronymic": "Olegovich",
+    "student_id": 3,
+    "phone_number": null,
+    "telegram": "@maxim_develop",
+    "email_address": null,
+    "git": "https://github.com/max_fedorov",
+    "birthdate": "15.05.1992"
+  }
+]

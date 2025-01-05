@@ -84,6 +84,21 @@ class Student < Person
 		end
 	end
 	
+	def to_h
+		{
+			student_id: self.student_id,
+			surname: self.surname,
+			name: self.name,
+			patronymic: self.patronymic,
+			student_id: self.student_id,
+			phone_number: self.phone_number,
+			telegram: self.telegram,
+			email_address: self.email_address,
+			git: self.git,
+			birthdate: self.birthdate&.strftime('%d.%m.%Y')
+		}
+	end
+	
 	private
 	
 	def surname=(surname)
