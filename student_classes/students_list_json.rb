@@ -3,8 +3,6 @@ require_relative './student.rb'
 require_relative './student_short.rb'
 
 class StudentsListJSON
-	attr_accessor :file_path, :students
-	
 	def initialize(file_path)
         self.file_path = file_path
         self.students = []
@@ -84,4 +82,19 @@ class StudentsListJSON
 	def sort_by_surname_with_initials!
         self.students.sort_by! { |student| student.surname_with_initials }
     end
+	
+	def add_student(new_student)
+		existing_ids = self.students.map(&:student_id)
+		if existing_ids.empty?
+			highest_student_id = 0
+		else
+			highest_student_id = existing_ids.max
+		end
+		new_student.student_id = highest_student_id + 1
+		self.students << new_student
+	end
+	
+	private
+	
+	attr_accessor :file_path, :students
 end

@@ -22,7 +22,7 @@ begin
 		surname: "Kuznetsov",
 		name: "Dmitry",
 		patronymic: "Nikolaevich",
-		student_id: 2,
+		student_id: 200,
 		telegram: "@dmitry_k",
 		email_address: "dmitry.kuznetsov@gmail.com",
 		git: "https://github.com/dmitry_kuznetsov",
@@ -31,7 +31,7 @@ begin
 		surname: "Fedorov",
 		name: "Maxim",
 		patronymic: "Olegovich",
-		student_id: 3,
+		student_id: 300,
 		phone_number: "+7(925)-888-99-11",
 		telegram: "@max_fed",
 		git: "https://github.com/max_fedorov",
@@ -199,7 +199,7 @@ begin
 	file_path = 'students.json'
 	
 	students_list_json = StudentsListJSON.new(file_path)
-	array_of_students.each { |student_object| students_list_json.students << student_object} 
+	array_of_students.each { |student_object| students_list_json.add_student(student_object) } 
 	
 	students_list_json.write_to_file
 	puts "Data successfully written to file!"
