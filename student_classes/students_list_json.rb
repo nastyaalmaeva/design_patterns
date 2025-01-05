@@ -7,7 +7,7 @@ class StudentsListJSON
 	
 	def initialize(file_path)
         self.file_path = file_path
-        self.students = read_from_file
+        self.students = []
     end
 	
 	def read_from_file
@@ -77,11 +77,11 @@ class StudentsListJSON
 		if existing_data_list.nil?
 			existing_data_list = DataListStudentShort.new(student_short_objects)
 			existing_data_list.select_all
-		else
-			existing_data_list.clear_selected
-			existing_data_list.data = student_short_objects
-			existing_data_list.select_all
 		end
 		return existing_data_list
 	end
+	
+	def sort_by_surname_with_initials!
+        self.students.sort_by! { |student| student.surname_with_initials }
+    end
 end

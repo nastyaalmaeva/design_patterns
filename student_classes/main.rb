@@ -194,26 +194,28 @@ begin
 		sixth_student, seventh_student, eighth_student, ninth_student, tenth_student
 	]
 	
+	puts "\n\n\n"
+	
 	file_path = 'students.json'
 	
-	students_list = StudentsListJSON.new(file_path)
-	array_of_students.each { |student_object| students_list.students << student_object} 
+	students_list_json = StudentsListJSON.new(file_path)
+	array_of_students.each { |student_object| students_list_json.students << student_object} 
 	
-	students_list.write_to_file
+	students_list_json.write_to_file
 	puts "Data successfully written to file!"
 	
-	students_list_from_file = StudentsListJSON.new(file_path)
-	read_students = students_list_from_file.read_from_file
-	
-	puts "\nStudents read from file:"
-	read_students.each { |student| puts student.get_info }
-	
-	puts students_list_from_file.get_student_by_id(3)
-	
-	data_list_student_short_from_json = students_list_from_file.get_k_n_student_short_list(2, 5)
+	data_list_student_short_from_json = students_list_json.get_k_n_student_short_list(1, 3)
 	
 	data_table_student_short_from_json = data_list_student_short_from_json.get_data
 	puts data_table_student_short_from_json
+	
+	puts "\n\n"
+	
+	students_list_json.sort_by_surname_with_initials!
+	data_list_sorted_student_short_from_json = students_list_json.get_k_n_student_short_list(1, 3)
+	
+	sorted_data_table_student_short_from_json = data_list_sorted_student_short_from_json.get_data
+	puts sorted_data_table_student_short_from_json
 
 rescue => e
 	print "An error occurred: #{e.message}"
