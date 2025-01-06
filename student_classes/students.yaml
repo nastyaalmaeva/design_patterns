@@ -1,0 +1,91 @@
+---
+- :student_id: 1
+  :surname: Almaeva
+  :name: Anastasia
+  :patronymic: Ilyinichna
+  :phone_number: "+7(905)-123-45-67"
+  :telegram: "@nastya"
+  :email_address: nastya@gmail.com
+  :git: https://github.com/nastyaalmaeva
+  :birthdate: 04.12.2005
+- :student_id: 2
+  :surname: Kuznetsov
+  :name: Dmitry
+  :patronymic: Nikolaevich
+  :phone_number:
+  :telegram: "@dmitry_k"
+  :email_address: dmitry.kuznetsov@gmail.com
+  :git: https://github.com/dmitry_kuznetsov
+  :birthdate: 01.10.2001
+- :student_id: 3
+  :surname: Fedorov
+  :name: Maxim
+  :patronymic: Olegovich
+  :phone_number: "+7(925)-888-99-11"
+  :telegram: "@max_fed"
+  :email_address:
+  :git: https://github.com/max_fedorov
+  :birthdate: 15.05.1992
+- :student_id: 4
+  :surname: Ivanov
+  :name: Sergey
+  :patronymic: Viktorovich
+  :phone_number: "+7(910)-111-22-33"
+  :telegram:
+  :email_address:
+  :git:
+  :birthdate: 15.05.1995
+- :student_id: 5
+  :surname: Petrov
+  :name: Alexey
+  :patronymic: Dmitrievich
+  :phone_number:
+  :telegram:
+  :email_address:
+  :git:
+  :birthdate:
+- :student_id: 6
+  :surname: Sidorov
+  :name: Nikolay
+  :patronymic: Petrovich
+  :phone_number: "+7(901)-222-33-44"
+  :telegram: "@nikolay_sid"
+  :email_address: nikolay.sidorov@gmail.com
+  :git: https://github.com/nikolay_sidorov
+  :birthdate: 20.03.1993
+- :student_id: 7
+  :surname: Smirnov
+  :name: Ivan
+  :patronymic: Alexandrovich
+  :phone_number:
+  :telegram: "@ivan_smirnov"
+  :email_address: ivan.smirnov@gmail.com
+  :git: https://github.com/ivan_smirnov
+  :birthdate: 18.07.1998
+- :student_id: 8
+  :surname: Popov
+  :name: Artem
+  :patronymic: Igorevich
+  :phone_number: "+7(902)-333-44-55"
+  :telegram:
+  :email_address: artem.popov@gmail.com
+  :git:
+  :birthdate: 12.02.1997
+- :student_id: 9
+  :surname: Vasiliev
+  :name: Andrey
+  :patronymic: Sergeevich
+  :phone_number:
+  :telegram: "@andrey_vas"
+  :email_address:
+  :git: https://github.com/andrey_vasiliev
+  :birthdate: 10.11.2000
+- :student_id: 10
+  :surname: Novikov
+  :name: Egor
+  :patronymic: Vladimirovich
+  :phone_number: "+7(903)-444-55-66"
+  :telegram:
+  :email_address: egor.novikov@gmail.com
+  :git: https://github.com/egor_novikov
+  :birthdate: 30.09.1995

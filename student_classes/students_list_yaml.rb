@@ -1,8 +1,8 @@
-require 'json'
+require 'yaml'
 require_relative './student.rb'
 require_relative './student_short.rb'
 
-class StudentsListJSON
+class StudentsListYAML
 	def initialize(file_path)
         self.file_path = file_path
         self.students = []
@@ -18,7 +18,7 @@ class StudentsListJSON
 					if content.strip.empty?
 						return []
 					end
-					data = JSON.parse(content, symbolize_names: true)
+					data = YAML.safe_load(content, permitted_classes: [Hash, Symbol])
 					if !data.is_a?(Array) || !data.all? { |entry| entry.is_a?(Hash) }
 						raise StandardError, "Invalid JSON structure. Expected an array of hashes."
 					end
@@ -41,7 +41,7 @@ class StudentsListJSON
 		student_data = self.students.map { |student| student.to_h }
 		begin
 			File.open(self.file_path, 'w') do |file|
-				file.write(JSON.pretty_generate(student_data))
+				file.write(student_data.to_yaml)
 			end
 		rescue IOError => error
 			raise StandardError, "Failed to write to file: #{error.message}"
