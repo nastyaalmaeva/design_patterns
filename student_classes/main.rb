@@ -6,6 +6,7 @@ require_relative 'data_table.rb'
 require_relative 'data_list.rb'
 require_relative 'data_list_student_short.rb'
 require_relative 'students_list_json.rb'
+require_relative 'students_list_yaml.rb'
 
 begin
 	first_student = Student.new(
@@ -99,29 +100,79 @@ begin
 		sixth_student, seventh_student, eighth_student, ninth_student, tenth_student
 	]
 	
-	file_path = 'students.json'
-	json_obj = StudentsListJSON.new(file_path)
+	puts "Choose file format (json/yaml):"
+	file_format = gets.chomp.downcase
+	file_path = file_format == 'yaml' ? 'students.yaml' : 'students.json'
 	
-	array_of_students.each { |student| json_obj.add_student(student) }
-	json_obj.write_to_file
+	student_list_base = file_format == 'yaml' ? StudentsListYAML.new(file_path) : StudentsListJSON.new(file_path)
 	
-	puts "\n"
+	current_page = 1
+	page_size = 5
 	
-	data_list_student_short = json_obj.get_k_n_student_short_list(1, 5)
-	
-	data_table_student_short = data_list_student_short.get_data
-	
-	puts "First Page:"
-	puts data_table_student_short
-	
-	puts "\n"
-	
-	data_list_student_short = json_obj.get_k_n_student_short_list(2, 5, data_list_student_short)
-	
-	data_table_student_short = data_list_student_short.get_data
-	
-	puts "Second Page:"
-	puts data_table_student_short
+	loop do
+		system('cls') || system('clear')
+		puts "Menu:"
+		puts "1. View current page"
+		puts "2. Go to next page"
+		puts "3. Go to previous page"
+		puts "4. Jump to specific page"
+		puts "5. Change page size"
+		puts "6. Save data to file"
+		puts "7. Load data from file"
+		puts "8. Restore data"
+		puts "q. Quit"
+		puts "-----------------------------"
+		puts "Current page: #{current_page}, Page size: #{page_size}"
+		
+		case gets.chomp.downcase
+		when '1'
+			puts "Current Page Data:"
+			data_list_student_short = student_list_base.get_k_n_student_short_list(current_page, page_size)
+			data_table_student_short = data_list_student_short.get_data
+			puts data_table_student_short
+			puts "Press Enter to continue..."
+			gets
+		when '2'
+			current_page += 1
+		when '3'
+			current_page = [1, current_page - 1].max
+		when '4'
+			print "Enter page number: "
+			current_page = gets.chomp.to_i
+		when '5'
+			print "Enter new page size: "
+			new_page_size = gets.chomp.to_i
+			if new_page_size > 0
+				page_size = new_page_size
+				current_page = 1
+				puts "Page size updated to #{page_size}."
+			else
+				puts "Invalid page size. Please enter a positive number."
+			end
+			puts "Press Enter to continue..."
+			gets
+		when '6'
+			student_list_base.write_to_file
+			puts "Data saved to #{file_path}"
+			puts "Press Enter to continue..."
+			gets
+		when '7'
+			student_list_base.read_from_file
+			puts "Data loaded from #{file_path}"
+			puts "Press Enter to continue..."
+			gets
+		when '8'
+			array_of_students.each { |student| student_list_base.add_student(student) }
+			puts "Data restored from default array."
+			puts "Press Enter to continue..."
+			gets
+		when 'q'
+			puts "Exiting..."
+			break
+		else
+			puts "Invalid choice. Please try again."
+		end
+	end
 
 rescue => e
 	print "An error occurred: #{e.message}"
