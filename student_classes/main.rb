@@ -5,8 +5,9 @@ require_relative 'binary_tree.rb'
 require_relative 'data_table.rb'
 require_relative 'data_list.rb'
 require_relative 'data_list_student_short.rb'
-require_relative 'students_list_json.rb'
-require_relative 'students_list_yaml.rb'
+require_relative 'students_list.rb'
+require_relative 'json_strategy.rb'
+require_relative 'yaml_strategy.rb'
 
 begin
 	first_student = Student.new(
@@ -104,7 +105,8 @@ begin
 	file_format = gets.chomp.downcase
 	file_path = file_format == 'yaml' ? 'students.yaml' : 'students.json'
 	
-	student_list_base = file_format == 'yaml' ? StudentsListYAML.new(file_path) : StudentsListJSON.new(file_path)
+	strategy = file_format == 'yaml' ? YAMLStrategy.new : JSONStrategy.new
+	student_list = StudentsList.new(strategy)
 	
 	current_page = 1
 	page_size = 5
@@ -127,7 +129,7 @@ begin
 		case gets.chomp.downcase
 		when '1'
 			puts "Current Page Data:"
-			data_list_student_short = student_list_base.get_k_n_student_short_list(current_page, page_size)
+			data_list_student_short = student_list.get_k_n_student_short_list(current_page, page_size)
 			data_table_student_short = data_list_student_short.get_data
 			puts data_table_student_short
 			puts "Press Enter to continue..."
@@ -152,17 +154,17 @@ begin
 			puts "Press Enter to continue..."
 			gets
 		when '6'
-			student_list_base.write_to_file
+			student_list.write_to_file(file_path)
 			puts "Data saved to #{file_path}"
 			puts "Press Enter to continue..."
 			gets
 		when '7'
-			student_list_base.read_from_file
+			student_list.read_from_file(file_path)
 			puts "Data loaded from #{file_path}"
 			puts "Press Enter to continue..."
 			gets
 		when '8'
-			array_of_students.each { |student| student_list_base.add_student(student) }
+			array_of_students.each { |student| student_list.add_student(student) }
 			puts "Data restored from default array."
 			puts "Press Enter to continue..."
 			gets
