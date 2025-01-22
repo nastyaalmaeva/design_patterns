@@ -17,6 +17,10 @@ class Student < Person
 		self.set_contacts(phone_number: phone_number, telegram: telegram, email_address: email_address)
 	end
 	
+	def self.new_from_hash(hash)
+		self.new(**hash.transform_keys(&:to_sym))
+	end
+	
 	def set_contacts(phone_number: nil, telegram: nil, email_address: nil)
 		if self.class.valid_format_phone_number?(phone_number)
 			@phone_number = phone_number
