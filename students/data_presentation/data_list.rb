@@ -29,9 +29,15 @@ class DataList
 	end
 	
 	def get_data
-		headers = get_names
-		rows = get_rows
-		return DataTable.new(headers, rows)
+		row_index = 1
+		rows = []
+		data.each_with_index do |element, index|
+			current_object = self.data[index]
+			row_data = build_row(row_index, current_object)
+			rows.append(row_data)
+			row_index += 1
+		end
+		return DataTable.new(rows)
 	end
 	
 	def select_all
@@ -46,18 +52,6 @@ class DataList
 	
 	def build_row
 		raise NotImplementedError, "Method not implemented in the DataList class"
-	end
-	
-	def get_rows
-		row_index = 1
-		rows = []
-		data.each_with_index do |element, index|
-			current_object = self.data[index]
-			row_data = build_row(row_index, current_object)
-			rows.append(row_data)
-			row_index += 1
-		end
-		return rows
 	end
 	
 	private

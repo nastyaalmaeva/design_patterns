@@ -120,7 +120,8 @@ begin
 		puts "5. Change page size"
 		puts "6. Save data to file"
 		puts "7. Load data from file"
-		puts "8. Restore data"
+		puts "8. Change strategy"
+		puts "9. Restore data"
 		puts "q. Quit"
 		puts "-----------------------------"
 		puts "Current page: #{current_page}, Page size: #{page_size}"
@@ -163,6 +164,12 @@ begin
 			puts "Press Enter to continue..."
 			gets
 		when '8'
+			puts "Choose file format (json/yaml):"
+			file_format = gets.chomp.downcase
+			file_path = file_format == 'yaml' ? 'students.yaml' : 'students.json'
+			strategy = file_format == 'yaml' ? YAMLStrategy.new : JSONStrategy.new
+			student_list.strategy = strategy
+		when '9'
 			array_of_students.each { |student| student_list.add_student(student) }
 			puts "Data restored from default array."
 			puts "Press Enter to continue..."

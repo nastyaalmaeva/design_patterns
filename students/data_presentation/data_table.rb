@@ -1,6 +1,6 @@
 class DataTable
-	def initialize(headers, data)
-		self.data = [headers] + data
+	def initialize(data)
+		self.data = data
 	end
 	
 	def row_count
@@ -49,7 +49,6 @@ class DataTable
 	private
 	
 	attr_reader :data
-	attr_accessor :headers
 	
 	def data=(data)
 		if !data.is_a?(Array) || !data.all? { |row| row.is_a?(Array) }
