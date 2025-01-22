@@ -1,5 +1,5 @@
-require_relative './student.rb'
-require_relative './student_short.rb'
+require_relative '../student_classes/student.rb'
+require_relative '../student_classes/student_short.rb'
 
 class StudentsList
 	attr_accessor :strategy

@@ -1,9 +1,9 @@
-require 'yaml'
-require_relative './student.rb'
-require_relative './student_short.rb'
-require_relative './file_strategy.rb'
+require 'json'
+require_relative '../student_classes/student.rb'
+require_relative '../student_classes/student_short.rb'
+require_relative 'file_strategy.rb'
 
-class YAMLStrategy < FileStrategy
+class JSONStrategy < FileStrategy
 	def read_from_file(file_path)
 		if !File.exist?(file_path)
 			return []
@@ -14,15 +14,15 @@ class YAMLStrategy < FileStrategy
 					if content.strip.empty?
 						return []
 					end
-					data = YAML.safe_load(content, permitted_classes: [Hash, Symbol])
+					data = JSON.parse(content, symbolize_names: true)
 					if !data.is_a?(Array) || !data.all? { |entry| entry.is_a?(Hash) }
-						raise StandardError, "Invalid YAML structure. Expected an array of hashes."
+						raise StandardError, "Invalid JSON structure. Expected an array of hashes."
 					end
 					students = data.map { |entry| Student.new(**entry) }
 					return students
 				end
-			rescue Psych::SyntaxError => e
-				raise StandardError, "YAML parsing error: #{e.message}"
+			rescue JSON::ParserError => e
+				raise StandardError, "JSON parsing error: #{e.message}"
 			end
 		end
 	end
@@ -37,7 +37,7 @@ class YAMLStrategy < FileStrategy
 		student_data = students.map { |student| student.to_h }
 		begin
 			File.open(file_path, 'w') do |file|
-				file.write(student_data.to_yaml)
+				file.write(JSON.pretty_generate(student_data))
 			end
 		rescue IOError => error
 			raise StandardError, "Failed to write to file: #{error.message}"

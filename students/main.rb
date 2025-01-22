@@ -1,13 +1,12 @@
-require_relative 'person.rb'
-require_relative 'student.rb'
-require_relative 'student_short.rb'
-require_relative 'binary_tree.rb'
-require_relative 'data_table.rb'
-require_relative 'data_list.rb'
-require_relative 'data_list_student_short.rb'
-require_relative 'students_list.rb'
-require_relative 'json_strategy.rb'
-require_relative 'yaml_strategy.rb'
+require_relative 'student_classes/person.rb'
+require_relative 'student_classes/student.rb'
+require_relative 'student_classes/student_short.rb'
+require_relative 'data_presentation/data_table.rb'
+require_relative 'data_presentation/data_list.rb'
+require_relative 'data_presentation/data_list_student_short.rb'
+require_relative 'data_strategy/students_list.rb'
+require_relative 'data_strategy/json_strategy.rb'
+require_relative 'data_strategy/yaml_strategy.rb'
 
 begin
 	first_student = Student.new(

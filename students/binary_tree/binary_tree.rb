@@ -1,5 +1,5 @@
-require './binary_tree_iterator'
-require './tree_node.rb'
+require_relative 'binary_tree_iterator'
+require_relative 'tree_node.rb'
 
 class BinaryTree
 	attr_accessor :root
