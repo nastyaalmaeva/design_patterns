@@ -1,25 +1,35 @@
 require 'pg'
 
 class DBClient
+	private_class_method :new
+	
+	def self.instance(db_params = nil)
+		@instance ||= new(db_params)
+	end
+	
 	def initialize(db_params)
-		@db_params = db_params
-		@connection = PG.connect(@db_params)
+		if db_params.nil?
+			raise 'Database configuration is required.'
+		end
+		self.client = PG.connect(db_params)
 	end
 	
 	def disconnect
-		if not @connection.nil?
-			@connection.close
+		if not self.client.nil?
+			self.client.close
+			self.client = nil
 		end
 	end
-
+	
 	def execute(query, params = [])
-		if connection.nil?
+		if self.client.nil?
 			raise StandardError, 'Database not connected.'
 		end
-		@connection.exec_params(query, params)
+		self.client.exec_params(query, params)
 	end
 	
 	private
 	
-	attr_reader :connection
+	attr_accessor :client
+	@instance = nil
 end

@@ -5,33 +5,26 @@ require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
 
 class StudentsListDB
-	def initialize(db_client)
-		@db_client = db_client
-	end
-	
 	def get_student_by_id(required_id)
-		result = @db_client.execute("SELECT * FROM students WHERE student_id = $1", [required_id])
+		result = DBClient.instance.execute("SELECT * FROM students WHERE student_id = $1", [required_id])
 		if result.ntuples == 0
 			return nil
 		end
-		row = result[0].transform_keys(&:to_sym)
-		row[:student_id] = row[:student_id].to_i if row[:student_id]
-		row[:birthdate] = Date.parse(row[:birthdate]).strftime('%d.%m.%Y') if row[:birthdate]
-		return Student.new_from_hash(row)
+		hash = process_hash(result[0])
+		return Student.new_from_hash(hash)
 	end
 	
 	def get_k_n_student_short_list(page_number, page_size, previous_data_list = nil)
-		 if page_number < 1 || page_size <= 0
+		if page_number < 1 || page_size <= 0
 			raise ArgumentError, "Invalid arguments. 'page_number' must be greater than 0 and 'page_size' must be positive."
 		end
 		
-		offset = (page_number - 1) * page_size
-		result = @db_client.execute("SELECT * FROM students ORDER BY student_id LIMIT $1 OFFSET $2", [page_size, offset])
+		start_index = (page_number - 1) * page_size
+		result = DBClient.instance.execute("SELECT * FROM students ORDER BY student_id LIMIT $1 OFFSET $2", [page_size, start_index])
 		
-		student_short_objects = result.map do |row|
-			row = row.transform_keys(&:to_sym)
-			row[:student_id] = row[:student_id].to_i if row[:student_id]
-			StudentShort.new_from_student_object(Student.new_from_hash(row))
+		student_short_objects = result.map do |hash|
+			hash = process_hash(hash)
+			StudentShort.new_from_student_object(Student.new_from_hash(hash))
 		end
 		
 		if previous_data_list.nil?
@@ -46,7 +39,7 @@ class StudentsListDB
 		if not student_to_add.is_a?(Student)
 			raise ArgumentError, "Invalid argument: Expected a Student object."
 		end
-		@db_client.execute(
+		DBClient.instance.execute(
 			"INSERT INTO students (surname, name, patronymic, phone_number, telegram, git, email_address, birthdate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
 			[
 				student_to_add.surname,
@@ -65,13 +58,11 @@ class StudentsListDB
 		if not new_student.is_a?(Student)
 			raise ArgumentError, "Invalid argument: Expected a Student object."
 		end
-		
-		result = @db_client.execute("SELECT student_id FROM students WHERE student_id = $1", [required_id])
+		result = DBClient.instance.execute("SELECT student_id FROM students WHERE student_id = $1", [required_id])
 		if result.ntuples == 0
 			raise ArgumentError, "Student with ID #{required_id} not found."
 		end
-		
-		@db_client.execute(
+		DBClient.instance.execute(
 			"UPDATE students SET surname = $1, name = $2, patronymic = $3, phone_number = $4, telegram = $5, git = $6, email_address = $7, birthdate = $8 WHERE student_id = $9",
 			[
 				new_student.surname,
@@ -91,15 +82,26 @@ class StudentsListDB
 		if get_student_by_id(required_id).nil?
 			raise IndexError, "Student with ID #{required_id} not found."
 		end
-		@db_client.execute("DELETE FROM students WHERE student_id = $1", [required_id])
+		DBClient.instance.execute("DELETE FROM students WHERE student_id = $1", [required_id])
 	end
 	
 	def get_student_short_count
-		result = @db_client.execute("SELECT COUNT(*) AS count FROM students")
+		result = DBClient.instance.execute("SELECT COUNT(*) AS count FROM students")
 		return result[0]['count'].to_i
 	end
 	
 	private
 	
 	attr_reader :db_client
+	
+	def process_hash(hash)
+		hash = hash.transform_keys(&:to_sym)
+		if not hash[:student_id].nil?
+			hash[:student_id] = hash[:student_id].to_i
+		end
+		if not hash[:birthdate].nil?
+			hash[:birthdate] = Date.parse(hash[:birthdate]).strftime('%d.%m.%Y')
+		end
+		return hash
+	end
 end
