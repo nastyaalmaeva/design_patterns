@@ -1,7 +1,7 @@
 require 'pg'
 require 'date'
-require_relative '../students_classes/student.rb'
-require_relative '../students_classes/student_short.rb'
+require_relative '../student_classes/student.rb'
+require_relative '../student_classes/student_short.rb'
 
 class StudentsListDB
 	def initialize(connection)
