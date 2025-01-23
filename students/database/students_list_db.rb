@@ -92,8 +92,6 @@ class StudentsListDB
 	
 	private
 	
-	attr_reader :db_client
-	
 	def process_hash(hash)
 		hash = hash.transform_keys(&:to_sym)
 		if not hash[:student_id].nil?
