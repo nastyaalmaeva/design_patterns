@@ -1,15 +1,16 @@
 require 'pg'
 require 'date'
+require_relative 'db_client.rb'
 require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
 
 class StudentsListDB
-	def initialize(connection)
-		@connection = connection
+	def initialize(db_client)
+		@db_client = db_client
 	end
 	
 	def get_student_by_id(required_id)
-		result = @connection.exec_params("SELECT * FROM students WHERE student_id = $1", [required_id])
+		result = @db_client.execute("SELECT * FROM students WHERE student_id = $1", [required_id])
 		if result.ntuples == 0
 			return nil
 		end
@@ -25,7 +26,7 @@ class StudentsListDB
 		end
 		
 		offset = (page_number - 1) * page_size
-		result = @connection.exec_params("SELECT * FROM students ORDER BY student_id LIMIT $1 OFFSET $2", [page_size, offset])
+		result = @db_client.execute("SELECT * FROM students ORDER BY student_id LIMIT $1 OFFSET $2", [page_size, offset])
 		
 		student_short_objects = result.map do |row|
 			row = row.transform_keys(&:to_sym)
@@ -45,7 +46,7 @@ class StudentsListDB
 		if not student_to_add.is_a?(Student)
 			raise ArgumentError, "Invalid argument: Expected a Student object."
 		end
-		@connection.exec_params(
+		@db_client.execute(
 			"INSERT INTO students (surname, name, patronymic, phone_number, telegram, git, email_address, birthdate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
 			[
 				student_to_add.surname,
@@ -65,12 +66,12 @@ class StudentsListDB
 			raise ArgumentError, "Invalid argument: Expected a Student object."
 		end
 		
-		result = @connection.exec_params("SELECT student_id FROM students WHERE student_id = $1", [required_id])
+		result = @db_client.execute("SELECT student_id FROM students WHERE student_id = $1", [required_id])
 		if result.ntuples == 0
 			raise ArgumentError, "Student with ID #{required_id} not found."
 		end
 		
-		@connection.exec_params(
+		@db_client.execute(
 			"UPDATE students SET surname = $1, name = $2, patronymic = $3, phone_number = $4, telegram = $5, git = $6, email_address = $7, birthdate = $8 WHERE student_id = $9",
 			[
 				new_student.surname,
@@ -90,15 +91,15 @@ class StudentsListDB
 		if get_student_by_id(required_id).nil?
 			raise IndexError, "Student with ID #{required_id} not found."
 		end
-		@connection.exec_params("DELETE FROM students WHERE student_id = $1", [required_id])
+		@db_client.execute("DELETE FROM students WHERE student_id = $1", [required_id])
 	end
 	
 	def get_student_short_count
-		result = @connection.exec("SELECT COUNT(*) AS count FROM students")
+		result = @db_client.execute("SELECT COUNT(*) AS count FROM students")
 		return result[0]['count'].to_i
 	end
 	
 	private
 	
-	attr_reader :connection
+	attr_reader :db_client
 end

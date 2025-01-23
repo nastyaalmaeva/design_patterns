@@ -6,22 +6,22 @@ require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
 
 begin
-	connection = PG.connect(
+	db_client = DBClient.new(
 		dbname: ENV['DB_NAME'],
 		user: ENV['DB_USER'],
 		password: ENV['DB_PASSWORD'],
 		host: ENV['DB_HOST'],
 		port: ENV['DB_PORT']
 	)
-
+	
+	students_list_db = StudentsListDB.new(db_client)
+	
 	puts "Connected to the database successfully!"
-
-	students_list_db = StudentsListDB.new(connection)
-
+	
 	student = students_list_db.get_student_by_id(10)
 	puts "Student with ID 10:"
 	puts student
-
+	
 	new_student = Student.new_from_hash({
 		surname: 'Ivanov',
 		name: 'Ivan',
@@ -48,16 +48,10 @@ begin
 	students_list_db.replace_student_by_id(20, updated_student)
 	puts "Student with ID 20 replaced."
 	
-	students_list_db.delete_student_by_id(15)
-	puts "Student with ID 15 deleted."
-	
-	page_number = 1
-	page_size = 10
-	
 	student_count = students_list_db.get_student_short_count
 	puts "Total number of students: #{student_count}"
 	
-	connection.close
+	db_client.disconnect
 
 rescue PG::Error => e
 	puts "An error occurred: #{e.message}"
