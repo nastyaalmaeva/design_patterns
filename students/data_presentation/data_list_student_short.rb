@@ -9,7 +9,7 @@ class DataListStudentShort < DataList
 	
 	private
 	
-	def build_row(index, student_short_obj)
-		return [index, student_short_obj.surname_with_initials, student_short_obj.git, student_short_obj.contact]
+	def build_row(student_short_obj)
+		return [student_short_obj.student_id, student_short_obj.surname_with_initials, student_short_obj.git, student_short_obj.contact]
 	end
 end

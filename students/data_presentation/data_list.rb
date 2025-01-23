@@ -29,13 +29,11 @@ class DataList
 	end
 	
 	def get_data
-		row_index = 1
 		rows = []
 		data.each_with_index do |element, index|
 			current_object = self.data[index]
-			row_data = build_row(row_index, current_object)
+			row_data = build_row(current_object)
 			rows.append(row_data)
-			row_index += 1
 		end
 		return DataTable.new(rows)
 	end
