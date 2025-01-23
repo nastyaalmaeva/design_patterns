@@ -6,8 +6,8 @@ class StudentsList
 	
 	def initialize(strategy)
 		self.strategy = strategy
-        self.students = []
-    end
+		self.students = []
+	end
 	
 	def get_student_by_id(id)
 		return self.students.find { |student| student.student_id == id }
