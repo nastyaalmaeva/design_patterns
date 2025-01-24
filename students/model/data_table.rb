@@ -4,7 +4,7 @@ class DataTable
 	end
 	
 	def row_count
-		return self.data.size - 1
+		return self.data.size
 	end
 	
 	def column_count

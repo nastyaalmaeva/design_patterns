@@ -1,6 +1,6 @@
 require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
-require_relative '../data_presentation/data_list_student.rb'
+require_relative '../model/data_list_student.rb'
 
 class StudentsList
 	attr_accessor :strategy
@@ -26,8 +26,12 @@ class StudentsList
 		# student_short_objects = selected_students.map { |student| StudentShort.new_from_student_object(student) }
 		if existing_data_list.nil?
 			existing_data_list = DataListStudent.new(selected_students)
+			existing_data_list.start_index = start_index
+			return existing_data_list
 		else
 			existing_data_list.data = selected_students
+			existing_data_list.start_index = start_index
+			return existing_data_list
 		end
 		return existing_data_list
 	end

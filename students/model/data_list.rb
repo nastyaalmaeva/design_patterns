@@ -1,9 +1,12 @@
 require_relative 'data_table.rb'
 
 class DataList
+	attr_accessor :count, :observers
+	
 	def initialize(data)
 		self.data = data
 		self.selected = []
+		self.observers = []
 	end
 	
 	def select(number)
@@ -30,12 +33,25 @@ class DataList
 	
 	def get_data
 		rows = []
-		data.each_with_index do |element, index|
+		index = 0
+		data.each do |element|
 			current_object = self.data[index]
-			row_data = build_row(current_object)
+			row_data = build_row(index, current_object)
 			rows.append(row_data)
+			index += 1
 		end
 		return DataTable.new(rows)
+	end
+	
+	def add_observer(observer)
+		self.observers << observer
+    end
+	
+	def notify(data)
+		self.observers.each do |observer|
+			observer.set_table_params(data.get_names, self.count)
+			observer.set_table_data(data.get_data)
+		end
 	end
 	
 	def select_all

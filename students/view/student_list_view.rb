@@ -1,20 +1,25 @@
 require 'fox16'
-require_relative 'data_presentation/data_list_student'
-require_relative 'data_presentation/data_table'
-require_relative 'student_classes/student'
+require_relative '../model/data_list_student'
+require_relative '../model/data_table'
+require_relative '../student_classes/student'
+require_relative '../student_classes/student_short'
 
 include Fox
 
 class StudentListView < FXVerticalFrame
+	attr_accessor :controller, :current_page_label
 	
 	ROWS_PER_PAGE = 4
 	
 	def initialize(parent)
 		super(parent, opts: LAYOUT_FILL)
+		self.controller = StudentListController.new(self)
 		self.filters = {}
 		setup_filtering_area
 		setup_table_area
 		setup_control_buttons_area
+		self.current_page_label = 1
+		self.refresh_data
 	end
 	
 	def setup_filtering_area
@@ -72,7 +77,7 @@ class StudentListView < FXVerticalFrame
 				field[:text_field]&.enabled = false
 			end
 		end
-		update_table
+		self.controller.refresh_data
 	end
 	
 	def setup_table_area
@@ -86,11 +91,13 @@ class StudentListView < FXVerticalFrame
 		end
 		controls = FXHorizontalFrame.new(table_area, opts: LAYOUT_FILL_X)
 		self.prev_button = FXButton.new(controls, "<<<", opts: BUTTON_NORMAL | LAYOUT_LEFT)
-		self.current_page_label = FXLabel.new(controls, "Страница: 1/1", opts: LAYOUT_CENTER_X)
+		self.page_label = FXLabel.new(controls, "Страница: 1/1", opts: LAYOUT_CENTER_X)
 		self.next_button = FXButton.new(controls, ">>>", opts: BUTTON_NORMAL | LAYOUT_RIGHT)
 		self.prev_button.connect(SEL_COMMAND) { switch_page(-1) }
 		self.next_button.connect(SEL_COMMAND) { switch_page(1) }
-		populate_table
+		self.table.columnHeader.connect(SEL_COMMAND) do |_, _, pos|
+			self.controller.refresh_data
+		end
 	end
 	
 	def setup_control_buttons_area
@@ -108,165 +115,50 @@ class StudentListView < FXVerticalFrame
 		update_button_states
 	end
 	
-	private
-	
-	attr_accessor :table, :data_list, :data, :total_pages, :current_page, :current_page_label, :prev_button, :next_button, :sort_order, :add_button, :update_button, :edit_button, :delete_button, :filters
-	
-	def populate_table
-		self.data_list = DataListStudent.new([
-		first_student = Student.new(
-		surname: "Almaeva",
-		name: "Anastasia",
-		patronymic: "Ilyinichna",
-		student_id: 1,
-		phone_number: "+7(905)-123-45-67",
-		telegram: "@nastya",
-		email_address: "nastya@gmail.com",
-		git: "https://github.com/nastyaalmaeva",
-		birthdate: "04.12.2005"),
-		second_student = Student.new(
-			surname: "Kuznetsov",
-			name: "Dmitry",
-			patronymic: "Nikolaevich",
-			student_id: 2,
-			telegram: "@dmitry_k",
-			email_address: "dmitry.kuznetsov@gmail.com",
-			git: "https://github.com/dmitry_kuznetsov",
-			birthdate: "01.10.2001"),
-		third_student = Student.new(
-			surname: "Fedorov",
-			name: "Maxim",
-			patronymic: "Olegovich",
-			student_id: 3,
-			phone_number: "+7(925)-888-99-11",
-			telegram: "@max_fed",
-			git: "https://github.com/max_fedorov",
-			birthdate: "15.05.1992"),
-		fourth_student = Student.new(
-			surname: "Ivanov",
-			name: "Sergey",
-			patronymic: "Viktorovich",
-			student_id: 4,
-			phone_number: "+7(910)-111-22-33",
-			birthdate: "15.05.1995"),
-		fifth_student = Student.new(
-			surname: "Petrov",
-			name: "Alexey",
-			patronymic: "Dmitrievich",
-			student_id: 5),
-		sixth_student = Student.new(
-			surname: "Sidorov",
-			name: "Nikolay",
-			patronymic: "Petrovich",
-			student_id: 6,
-			phone_number: "+7(901)-222-33-44",
-			telegram: "@nikolay_sid",
-			email_address: "nikolay.sidorov@gmail.com",
-			git: "https://github.com/nikolay_sidorov",
-			birthdate: "20.03.1993"),
-		seventh_student = Student.new(
-			surname: "Smirnov",
-			name: "Ivan",
-			patronymic: "Alexandrovich",
-			student_id: 7,
-			telegram: "@ivan_smirnov",
-			email_address: "ivan.smirnov@gmail.com",
-			git: "https://github.com/ivan_smirnov",
-			birthdate: "18.07.1998"),
-		eighth_student = Student.new(
-			surname: "Popov",
-			name: "Artem",
-			patronymic: "Igorevich",
-			student_id: 8,
-			phone_number: "+7(902)-333-44-55",
-			email_address: "artem.popov@gmail.com",
-			birthdate: "12.02.1997"),
-		ninth_student = Student.new(
-			surname: "Vasiliev",
-			name: "Andrey",
-			patronymic: "Sergeevich",
-			student_id: 9,
-			telegram: "@andrey_vas",
-			git: "https://github.com/andrey_vasiliev",
-			birthdate: "10.11.2000"),
-		tenth_student = Student.new(
-			surname: "Novikov",
-			name: "Egor",
-			patronymic: "Vladimirovich",
-			student_id: 10,
-			phone_number: "+7(903)-444-55-66",
-			email_address: "egor.novikov@gmail.com",
-			git: "https://github.com/egor_novikov",
-			birthdate: "30.09.1995")
-		])
-		
-		self.data = data_list.get_data
-		data_row_count = self.data.row_count
-		self.total_pages = (data_row_count.to_f / ROWS_PER_PAGE).ceil
-		self.current_page = 1
-		
-		setup_headers
-		update_table
+	def set_table_params(column_names, whole_entities_count)
+		column_names.each_with_index do |name, index|
+			self.table.setColumnText(index, name)
+		end
+		self.total_pages = (whole_entities_count / ROWS_PER_PAGE.to_f).ceil
+		update_page_label
 	end
 	
-	def setup_headers
-		headers = self.data_list.get_names
-		headers.each_with_index do |header, col_index|
-			self.table.setColumnText(col_index, header)
-		end
-	end
-	
-	def update_table
-		if self.data.nil? || self.data.row_count == 0
-			return
-		end
-		
+	def set_table_data(data_table)
 		clear_table
-		
-		data_to_display = get_page_data(self.current_page)
-		data_to_display.each_with_index do |row, row_index|
-			row.each_with_index do |cell, col_index|
-				self.table.setItemText(row_index, col_index, cell ? cell.to_s : 'No data')
+		(0...data_table.row_count).each do |row|
+			(0...data_table.column_count).each do |col|
+				self.table.setItemText(row, col, data_table.get_element(row, col) ? data_table.get_element(row, col).to_s : 'No data')
 			end
 		end
-		
-		self.current_page_label.text = "Страница: #{self.current_page}/#{self.total_pages}"
+	end
+	
+	def refresh_data
+		self.current_page_label = 1
+		self.controller.refresh_data
+	end
+	
+	private
+	
+	attr_accessor :table, :total_pages, :prev_button, :next_button, :sort_order, :add_button, :update_button, :edit_button, :delete_button, :filters, :page_label, :selected_rows
+	
+	def update_page_label
+		self.page_label.text = "Страница: #{self.current_page_label}/#{self.total_pages}"
 	end
 	
 	def clear_table
-		(0...ROWS_PER_PAGE).each do |row_index|
-			(0...self.data.column_count).each do |col_index|
+		(0...self.table.numRows).each do |row_index|
+			(0...self.table.numColumns).each do |col_index|
 				self.table.setItemText(row_index, col_index, "")
 			end
 		end
 	end
 	
-	def get_page_data(page_number)
-		start_index = (page_number - 1) * ROWS_PER_PAGE
-		end_index = start_index + ROWS_PER_PAGE - 1
-		data_page = []
-		
-		(start_index..end_index).each do |row_index|
-			if row_index >= self.data.row_count
-				break
-			end
-			row = []
-			(0...self.data.column_count).each do |col_index|
-				row << self.data.get_element(row_index, col_index)
-			end
-			data_page << row
-		end
-		
-		return data_page
-	end
-	
 	def switch_page(direction)
-		new_page = self.current_page + direction
-		if new_page < 1 || new_page > self.total_pages
-			return
+		new_page = self.current_page_label + direction
+		if new_page > 0 && new_page <= self.total_pages
+			self.current_page_label = new_page
+			self.controller.refresh_data
 		end
-		self.current_page = new_page
-		update_table
 	end
 	
 	def get_selected_rows
@@ -297,14 +189,26 @@ class StudentListView < FXVerticalFrame
 	end
 	
 	def on_add
+		self.controller.add
 	end
 	
 	def on_update
+		self.refresh_data
 	end
 	
 	def on_edit
+		self.selected_rows = []
+		(0...self.table.numRows).each do |index|
+			self.selected_rows << index if self.table.rowSelected?(index)
+		end
+		self.controller.update(self.selected_rows[0])
 	end
 	
 	def on_delete
+		self.selected_rows = []
+		(0...self.table.numRows).each do |index|
+			self.selected_rows << index if self.table.rowSelected?(index)
+		end
+		self.controller.delete(self.selected_rows)
 	end
 end
