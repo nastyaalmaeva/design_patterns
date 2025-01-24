@@ -27,15 +27,22 @@ class DataTable
 	
 	def to_s
 		if data.empty?
-			return "Sorry, table is empty"
+			return "Empty table"
 		else
-			output = "╔════════════════════════════════════════════════════════════════════════════════════════════════╗\n"
+			output = "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n"
 			data.each do |row|
-				output += format(" %-3s | %-24s | %-35s | %-20s\n", (row[0] ? row[0] : "No data"), (row[1] ? row[1] : "No data"), (row[2] ? row[2] : "No data"), (row[3] ? row[3] : "No data"))
+				formatted_row = row.map.with_index do |cell, index|
+					if index == 0
+						format('%-3s', cell ? cell : 'No data')
+					else
+						format('%-35s', cell ? cell : 'No data')
+					end
+				end
+				output += " #{formatted_row.join(' | ')}\n"
 			end
-			output += "╚════════════════════════════════════════════════════════════════════════════════════════════════╝"
-			return output
+			output += "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝"
 		end
+		return output
 	end
 	
 	def update_data(new_data)

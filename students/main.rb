@@ -129,9 +129,9 @@ begin
 		case gets.chomp.downcase
 		when '1'
 			puts "Current Page Data:"
-			data_list_student_short = student_list.get_k_n_student_short_list(current_page, page_size)
-			data_table_student_short = data_list_student_short.get_data
-			puts data_table_student_short
+			data_list_student = student_list.get_k_n_objects_list(current_page, page_size)
+			data_table_student = data_list_student.get_data
+			puts data_table_student
 			puts "Press Enter to continue..."
 			gets
 		when '2'

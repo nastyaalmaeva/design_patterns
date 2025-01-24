@@ -1,5 +1,6 @@
 require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
+require_relative '../data_presentation/data_list_student.rb'
 
 class StudentsList
 	attr_accessor :strategy
@@ -13,7 +14,7 @@ class StudentsList
 		return self.students.find { |student| student.student_id == id }
 	end
 	
-	def get_k_n_student_short_list(page_number, page_size, existing_data_list = nil)
+	def get_k_n_objects_list(page_number, page_size, existing_data_list = nil)
 		if page_number < 1 || page_size <= 0
 			raise StandardError, "Invalid arguments: page_number must be greater than 0, and page_size must be positive."
 		end
@@ -22,11 +23,11 @@ class StudentsList
 		if selected_students.nil?
 			selected_students = []
 		end
-		student_short_objects = selected_students.map { |student| StudentShort.new_from_student_object(student) }
+		# student_short_objects = selected_students.map { |student| StudentShort.new_from_student_object(student) }
 		if existing_data_list.nil?
-			existing_data_list = DataListStudentShort.new(student_short_objects)
+			existing_data_list = DataListStudent.new(selected_students)
 		else
-			existing_data_list.data = student_short_objects
+			existing_data_list.data = selected_students
 		end
 		return existing_data_list
 	end
