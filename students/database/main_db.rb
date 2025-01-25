@@ -3,7 +3,7 @@ require 'dotenv/load'
 require_relative 'students_list_db'
 require_relative '../student_classes/student.rb'
 require_relative '../student_classes/student_short.rb'
-require_relative '../data_presentation/data_list_student_short.rb'
+require_relative '../model/data_list_student_short.rb'
 
 begin
 	db_params = {
