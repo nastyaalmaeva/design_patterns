@@ -1,0 +1,56 @@
+<h1>Star Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @star.name %>
+</p>
+
+<p>
+  <strong>Spectral Class:</strong>
+  <%= @star.spectral_class %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @star.temperature %>
+</p>
+
+<p>
+  <strong>Mass:</strong>
+  <%= @star.mass %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @star.color %>
+</p>
+
+<h2>Planets</h2>
+
+<% if @star.planets.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Mass</th>
+        <th>Temperature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @star.planets.each do |planet| %>
+        <tr>
+          <td><%= link_to planet.name, planet %></td>
+          <td><%= planet.planet_type %></td>
+          <td><%= planet.mass %></td>
+          <td><%= planet.temperature %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No planets found for this star.</p>
+<% end %>
+
+<%= link_to 'Edit', edit_star_path(@star) %> |
+<%= link_to 'Back', stars_path %>

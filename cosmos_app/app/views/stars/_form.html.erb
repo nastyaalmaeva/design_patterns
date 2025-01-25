@@ -1,0 +1,41 @@
+<%= form_with(model: star) do |form| %>
+  <% if star.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(star.errors.count, "error") %> prohibited this star from being saved:</h2>
+      <ul>
+        <% star.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :spectral_class %>
+    <%= form.text_field :spectral_class, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :temperature %>
+    <%= form.number_field :temperature, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mass %>
+    <%= form.number_field :mass, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :color %>
+    <%= form.text_field :color, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

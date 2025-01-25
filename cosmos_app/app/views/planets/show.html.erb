@@ -1,0 +1,58 @@
+<h1>Planet Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @planet.name %>
+</p>
+
+<p>
+  <strong>Star:</strong>
+  <%= link_to @planet.star.name, @planet.star %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @planet.planet_type %>
+</p>
+
+<p>
+  <strong>Mass:</strong>
+  <%= @planet.mass %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @planet.temperature %>
+</p>
+
+<h2>Sattelites</h2>
+
+<% if @planet.sattelites.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Mass</th>
+        <th>Temperature</th>
+        <th>Form</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @planet.sattelites.each do |sattelite| %>
+        <tr>
+          <td><%= link_to sattelite.name, sattelite %></td>
+          <td><%= sattelite.sattelite_type %></td>
+          <td><%= sattelite.mass %></td>
+          <td><%= sattelite.temperature %></td>
+          <td><%= sattelite.form %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No sattelites found for this planet.</p>
+<% end %>
+
+<%= link_to 'Edit', edit_planet_path(@planet) %> |
+<%= link_to 'Back', planets_path %>

@@ -1,0 +1,21 @@
+<h1>Delete Sattelite</h1>
+
+<p>Are you sure you want to delete the following sattelite?</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @sattelite.name %>
+</p>
+
+<p>
+  <strong>Planet:</strong>
+  <%= @sattelite.planet.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @sattelite.sattelite_type %>
+</p>
+
+<%= button_to 'Delete', sattelite_path(@sattelite), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this sattelite?' } %>
+<%= link_to 'Cancel', sattelites_path, class: 'btn btn-secondary' %>

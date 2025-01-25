@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CosmosApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background-color: #f5f5f5; /* Светло-серый фон */
+        color: #333333; /* Темно-серый текст */
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Контейнер для основного контента */
+      .container {
+        max-width: 1200px; /* Ограничение ширины контента */
+        margin: 20px auto; /* Центрирование контейнера */
+        padding: 20px;
+        background-color: #ffffff; /* Белый фон контейнера */
+        border-radius: 8px; /* Закругленные углы */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+      }
+
+      /* Стили для заголовков */
+      h1, h2, h3, h4, h5, h6 {
+        color: #6c5ce7; /* Фиолетовый цвет для заголовков */
+        margin-bottom: 20px;
+      }
+
+      /* Стили для таблиц */
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #ffffff; /* Белый фон для таблиц */
+        border: 1px solid #dddddd; /* Граница таблицы */
+      }
+
+      .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #dddddd; /* Граница между строками */
+      }
+
+      .table th {
+        background-color: #6c5ce7; /* Фиолетовый фон для заголовков таблиц */
+        color: #ffffff; /* Белый текст в заголовках таблиц */
+      }
+
+      .table-hover tbody tr:hover {
+        background-color: #f8f9fa; /* Светло-серый фон при наведении */
+      }
+
+      /* Стили для форм */
+      form {
+        margin-bottom: 20px;
+      }
+
+      form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333333; /* Темно-серый текст для меток */
+      }
+
+      form input[type="text"],
+      form input[type="email"],
+      form input[type="tel"],
+      form input[type="date"],
+      form select,
+      form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #dddddd; /* Граница полей ввода */
+        border-radius: 4px; /* Закругленные углы */
+        font-size: 16px;
+      }
+
+      form input[type="submit"],
+      form button {
+        background-color: #6c5ce7; /* Фиолетовый цвет для кнопок */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      form input[type="submit"]:hover,
+      form button:hover {
+        background-color: #5a4acf; /* Темнее фиолетовый при наведении */
+      }
+
+      /* Стили для кнопок */
+      .btn-primary {
+        background-color: #6c5ce7; /* Фиолетовый цвет для кнопок */
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background-color: #5a4acf; /* Темнее фиолетовый при наведении */
+      }
+
+      .btn-secondary {
+        background-color: #a29bfe; /* Светло-фиолетовый цвет для кнопок */
+        border: none;
+      }
+
+      .btn-secondary:hover {
+        background-color: #8e7dfa; /* Темнее светло-фиолетовый при наведении */
+      }
+
+      /* Стили для уведомлений */
+      .notice, .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .notice {
+        background-color: #d4edda; /* Зеленый фон для уведомлений */
+        color: #155724; /* Темно-зеленый текст */
+        border: 1px solid #c3e6cb; /* Граница уведомления */
+      }
+
+      .alert {
+        background-color: #f8d7da; /* Красный фон для предупреждений */
+        color: #721c24; /* Темно-красный текст */
+        border: 1px solid #f5c6cb; /* Граница предупреждения */
+      }
+
+      /* Стили для ссылок */
+      a {
+        color: #6c5ce7; /* Фиолетовый цвет для ссылок */
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Стили для карточек */
+      .card {
+        background-color: #ffffff; /* Белый фон для карточек */
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        margin-bottom: 20px;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .card h2 {
+        color: #6c5ce7; /* Фиолетовый цвет для подзаголовков */
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <%= yield %>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

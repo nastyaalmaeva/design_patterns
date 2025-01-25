@@ -1,0 +1,2 @@
+module SattelitesHelper
+end

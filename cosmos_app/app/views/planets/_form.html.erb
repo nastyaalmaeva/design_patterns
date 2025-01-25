@@ -1,0 +1,41 @@
+<%= form_with(model: planet) do |form| %>
+  <% if planet.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(planet.errors.count, "error") %> prohibited this planet from being saved:</h2>
+      <ul>
+        <% planet.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :star_id, "Star" %>
+    <%= form.collection_select :star_id, Star.all, :id, :name, { prompt: true }, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :planet_type, "Type" %>
+    <%= form.text_field :planet_type, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mass %>
+    <%= form.number_field :mass, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :temperature %>
+    <%= form.number_field :temperature, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

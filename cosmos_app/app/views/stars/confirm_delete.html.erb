@@ -1,0 +1,28 @@
+<h1>Delete Star</h1>
+
+<p>Are you sure you want to delete the following star?</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @star.name %>
+</p>
+
+<p>
+  <strong>Spectral Class:</strong>
+  <%= @star.spectral_class %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @star.temperature %>
+</p>
+
+<% if @star.planets.any? %>
+  <div class="alert alert-danger">
+    This star has associated planets and cannot be deleted.
+  </div>
+<% else %>
+  <%= button_to 'Delete', star_path(@star), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this star?' } %>
+<% end %>
+
+<%= link_to 'Cancel', stars_path, class: 'btn btn-secondary' %>

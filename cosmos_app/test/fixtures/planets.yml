@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  star: one
+  planet_type: MyString
+  mass: 1.5
+  temperature: 1.5
+
+two:
+  name: MyString
+  star: two
+  planet_type: MyString
+  mass: 1.5
+  temperature: 1.5

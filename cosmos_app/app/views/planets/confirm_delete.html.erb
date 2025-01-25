@@ -1,0 +1,28 @@
+<h1>Delete Planet</h1>
+
+<p>Are you sure you want to delete the following planet?</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @planet.name %>
+</p>
+
+<p>
+  <strong>Star:</strong>
+  <%= @planet.star.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @planet.planet_type %>
+</p>
+
+<% if @planet.sattelites.any? %>
+  <div class="alert alert-danger">
+    This planet has associated sattelites and cannot be deleted.
+  </div>
+<% else %>
+  <%= button_to 'Delete', planet_path(@planet), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this planet?' } %>
+<% end %>
+
+<%= link_to 'Cancel', planets_path, class: 'btn btn-secondary' %>

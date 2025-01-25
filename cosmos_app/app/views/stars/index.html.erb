@@ -1,0 +1,30 @@
+<h1>Stars</h1>
+
+<%= link_to 'New Star', new_star_path, class: 'btn btn-primary' %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Spectral Class</th>
+      <th>Temperature</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stars.each do |star| %>
+      <tr>
+        <td><%= star.name %></td>
+        <td><%= star.spectral_class %></td>
+        <td><%= star.temperature %></td>
+        <td>
+          <%= link_to 'Show', star, class: 'btn btn-info btn-sm' %>
+          <%= link_to 'Edit', edit_star_path(star), class: 'btn btn-warning btn-sm' %>
+          <%= link_to 'Delete', confirm_delete_star_path(star), class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back to Home', root_path, class: 'btn btn-secondary' %>

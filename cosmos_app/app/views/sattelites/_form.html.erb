@@ -1,0 +1,46 @@
+<%= form_with(model: sattelite) do |form| %>
+  <% if sattelite.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(sattelite.errors.count, "error") %> prohibited this sattelite from being saved:</h2>
+      <ul>
+        <% sattelite.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :planet_id, "Planet" %>
+    <%= form.collection_select :planet_id, Planet.all, :id, :name, { prompt: true }, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sattelite_type, "Type" %>
+    <%= form.text_field :sattelite_type, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mass %>
+    <%= form.number_field :mass, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :temperature %>
+    <%= form.number_field :temperature, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :form %>
+    <%= form.text_field :form, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>
